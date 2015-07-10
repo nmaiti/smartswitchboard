@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.000003125" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -127,6 +127,7 @@
 <wire x1="105.35923125" y1="74.5767125" x2="0" y2="74.482928125" width="0" layer="20"/>
 <wire x1="0" y1="74.482928125" x2="0.17135" y2="24.41426875" width="0" layer="20"/>
 <text x="35.447534375" y="31.243234375" size="1.9304" layer="16" rot="MR0">HBT</text>
+<text x="69.41833125" y="53.224921875" size="2.1844" layer="16" ratio="20" rot="MR0">HBT</text>
 </plain>
 <libraries>
 <library name="PatternAgents-TouchWidgets">
