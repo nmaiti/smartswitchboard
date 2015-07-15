@@ -10,7 +10,7 @@ QTouch capTouch;
 
 BLE::BLE()
 {
-  
+  //do notihing
 }
 
 

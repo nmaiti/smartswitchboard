@@ -1,4 +1,4 @@
-/* Project: Smart Switch Board Vr1
+  /* Project: Smart Switch Board Vr1
    Author:Vikas Gaikwad
    Date  :05/07/2015
    Descriptions:  This is a Smart Switch board can be communicated with Capsense Touch,IR Remote and a Bluetooth Low Energy using Smart Phone.  
@@ -37,31 +37,26 @@ QTouch myTouch;  //objects
 IR myIR;
 BLE myBLE;
 
+//Global Variables
+
 int RECV_PIN= 11;
-volatile int state=LOW;
-byte touch_input;
+
+volatile byte touch_input=0,prev_touch_input,temp,change,new_state;
+volatile byte load_output_status=0;
+volatile unsigned long int channel_no;
+int switch_num=0;
 
 
 IRrecv My_Receiver(RECV_PIN);
 IRdecode My_Decoder;
 
-//ISR routine
-void ledblink()
-{
-  
-  Serial.println("In A ISR********************************************************");
-  state = !state;
-  touch_input = myTouch.readCapsense();
-  myTouch.cap_setLoad(touch_input);
-}
-
 
 void setup()
 {
-   Serial.begin(9600);
-   myTAH.begin(9600);
+  Serial.begin(9600);
+  myTAH.begin(9600);
 
-   myTAH.enterCommandMode();
+  myTAH.enterCommandMode();
 
   myTAH.setName("BedRoom");
   myTAH.setTransmissionPower(Six);
@@ -76,13 +71,8 @@ void setup()
   
   My_Receiver.enableIRIn(); // Start the receiver
   digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
-  PCintPort::attachInterrupt(12,ledblink,CHANGE); // attach a PinChange Interrupt to Lamp1
-  PCintPort::attachInterrupt(6,ledblink,CHANGE); // attach a PinChange Interrupt to Lamp2
-  PCintPort::attachInterrupt(9,ledblink,CHANGE); // attach a PinChange Interrupt to Lamp3
-  PCintPort::attachInterrupt(10,ledblink,CHANGE); // attach a PinChange Interrupt to Lamp4
-  PCintPort::attachInterrupt(5,ledblink,CHANGE); // attach a PinChange Interrupt to Lamp5
-  PCintPort::attachInterrupt(8,ledblink,CHANGE); // attach a PinChange Interrupt to Master
-  pinMode(13,OUTPUT);
+  
+  
 }  
 
 unsigned long int irDecoder()
@@ -105,19 +95,12 @@ unsigned long int irDecoder()
 
 void loop()
 {  
-   byte touch_input,load_status=0,prev_touch_input=0;
-   int switch_num=0;
-   unsigned long int prev_channel_no=0,channel_no =0;
-   Serial.println("In a Vid Loop");
-   digitalWrite(13,state);
-   //touch_input = myTouch.readCapsense();Serial.println(touch_input);
-   //myTouch.cap_setLoad(touch_input);
-   //channel_no =  irDecoder();
-   //myIR.ir_setLoad(channel_no);
-   //Serial.println(channel_no,HEX);
-   //delay(1);
    
-
+     
+   channel_no =  irDecoder();           //Decode Remote Signals
+   touch_input = myTouch.readCapsense();  //Read capsense values
+   
+   
    if(myTAH.available()>0)          //phone connected and Rx commands
    {
       // When Smart Phone is connected
@@ -154,74 +137,36 @@ void loop()
                       myTouch.Master_OFF();break;
                       
         }
-        load_status = myTouch.readLoadstatus();myTAH.print("v:");myTAH.print(load_status);
+        load_output_status = myTouch.readLoadstatus();myTAH.print("v:");myTAH.print(load_output_status);
         
       
    }
-   else
+   else if(touch_input != prev_touch_input)
   {
     //when BLE is not connected and signals coming from IR Remote and Capsense Board
+    Serial.print("Prev Touch:");Serial.println(prev_touch_input,HEX);
+    Serial.print("Touch_input:");Serial.println(touch_input,HEX);
     
-    myTAH.print("in Else part");
-    //touch_input = myTouch.readCapsense();    //Read Touch Input  
-    channel_no =  irDecoder();           //Decode Remote Signals
+    load_output_status = myTouch.readLoadstatus();
+    Serial.print("Load_Status:");Serial.println(load_output_status,HEX);
+    
+    temp=touch_input;
+    change = prev_touch_input ^ touch_input;    //if there is a change in state then o/p = !0 
+    Serial.print("Temp:");Serial.println(temp);
+    new_state    = change & load_output_status;
+    myTouch.cap_setLoad(temp);          //switch as per new_state
+    
+    prev_touch_input = touch_input;
+    
+  }
+ if(channel_no !=0 && (channel_no == Master || channel_no == one || channel_no == two || channel_no == three || channel_no == four || channel_no == five || channel_no == six || channel_no == seven || channel_no == eight || channel_no == nine || channel_no == zero))
+  {
     myIR.ir_setLoad(channel_no);
-    //Here we have two Input states , Possible combinations are 4 00 01 10 11 
-    
-   /* if(touch_input ==0 && channel_no == 0)    //No input from both
-    {
-      //do nothing
-    }
-    else if(touch_input == 0 && channel_no !=0)  //inputs from IR Remote
-    {
-      myIR.ir_setLoad(channel_no);              //Set Load as per IR signal
-      prev_channel_no = channel_no;             // current channel_no = prev_channel_no
-    }
-    else if(touch_input !=0 && channel_no ==0)  //inputs from Touch board
-    {
-      myTouch.cap_setLoad(touch_input);          //Set Load as per Touch input
-      prev_touch_input = touch_input;            //current touch_input = prev_touch_input
-    }
-    else if(touch_input !=0 && channel_no != 0)  //inputs may come from both
-    {
-      if(prev_touch_input != touch_input)        //check if prev_touch is equal to currnt touch input ?
-      {
-        //set Load asper Touch inputs
-        myTouch.cap_setLoad(touch_input);          //Set Load as per Touch input
-        prev_touch_input = touch_input;            //current touch_input = prev_touch_input
-      }  
-      else 
-      {    //input comes from IR Remote
-        myIR.ir_setLoad(channel_no);              //Set Load as per IR signal
-        prev_channel_no = channel_no;             // current channel_no = prev_channel_no
-      }
-    }
-            
-      
-    
-    
-    //myTouch.cap_setLoad(touch_input);
- /*   if(touch_input != 0 || channel_no !=0)    //when input from both comes True
-    {
-      if(touch_input !=0)
-      {
-        //set Load as per touch_input
-        //myTouch.cap_setLoad(touch_input);
-        load_status = myTouch.readLoadstatus();myTAH.print("cap:");myTAH.print(load_status);  //update to BLE
-      }
-      else if(channel_no !=0)
-      {
-        //set Load as per IR signal"
-        myIR.ir_setLoad(channel_no);
-        load_status = myTouch.readLoadstatus();myTAH.print("ir:");myTAH.print(load_status);  //update to BLE
-      }
-     
-    }  */   
-  }  
-  
-  }  //if case
+  }
 
-  
+  delay(500);
+} // loop
+ 
 
 
 

@@ -52,7 +52,7 @@ void QTouch::gpioInit(void)
   for(int i=0;i<6;i++)
   {
     digitalWrite(capsensepins[i],LOW);
-    digitalWrite(loadoutpins[i],LOW);
+    digitalWrite(loadoutpins[i],HIGH);
   }  
   
 }
@@ -66,44 +66,44 @@ void QTouch::gpioInit(void)
 
 void QTouch::L1_ON(void)
 {
-  digitalWrite(Load1,HIGH);
+  digitalWrite(Load1,LOW);
 }
 
 void QTouch::L2_ON(void)
 {
-  digitalWrite(Load2,HIGH);
+  digitalWrite(Load2,LOW);
 }
 
 void QTouch::L3_ON(void)
 {
-  digitalWrite(Load3,HIGH);
+  digitalWrite(Load3,LOW);
 }
 
 void QTouch::L4_ON(void)
 {
-  digitalWrite(Load4,HIGH);
+  digitalWrite(Load4,LOW);
 }
 
 void QTouch::L5_ON(void)
 {
-  digitalWrite(Load5,HIGH);
+  digitalWrite(Load5,LOW);
 }
 
 void QTouch::Master_ON(void)  // Now Master is ON == Make ALL ON
 {
   //curr_status = getstatus;
-  digitalWrite(Load1,HIGH);
+  /*digitalWrite(Load1,HIGH);
   digitalWrite(Load2,HIGH);
   digitalWrite(Load3,HIGH);
   digitalWrite(Load4,HIGH);  //Make them ON
   digitalWrite(Load5,HIGH);
-  /*delay(5000);
+  delay(5000);  */
   digitalWrite(Load1,LOW);
   digitalWrite(Load2,LOW);
   digitalWrite(Load3,LOW);
   digitalWrite(Load4,LOW);  //Make them OFF
   digitalWrite(Load5,LOW);
-  */
+  
 }
 /*========================================================================================================
 
@@ -115,40 +115,40 @@ void QTouch::Master_ON(void)  // Now Master is ON == Make ALL ON
 
 void QTouch::L1_OFF(void)
 {
-  digitalWrite(Load1,LOW);
+  digitalWrite(Load1,HIGH);
 }
 
 void QTouch::L2_OFF(void)
 {
-  digitalWrite(Load2,LOW);
+  digitalWrite(Load2,HIGH);
   
 }
 
 void QTouch::L3_OFF(void)
 {
-  digitalWrite(Load3,LOW);
+  digitalWrite(Load3,HIGH);
 
 }
 
 void QTouch::L4_OFF(void)
 {
-  digitalWrite(Load4,LOW);
+  digitalWrite(Load4,HIGH);
 
 }
 
 void QTouch::L5_OFF(void)
 {
-  digitalWrite(Load5,LOW);
+  digitalWrite(Load5,HIGH);
 
 }
 
 void QTouch::Master_OFF(void)
 {
-  digitalWrite(Load1,LOW);
-  digitalWrite(Load2,LOW);
-  digitalWrite(Load3,LOW);
-  digitalWrite(Load4,LOW);  //Make them OFF
-  digitalWrite(Load5,LOW);
+  digitalWrite(Load1,HIGH);
+  digitalWrite(Load2,HIGH);
+  digitalWrite(Load3,HIGH);
+  digitalWrite(Load4,HIGH);  //Make them OFF
+  digitalWrite(Load5,HIGH);
   
 }
 /*========================================================================================================
