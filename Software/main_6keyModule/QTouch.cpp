@@ -53,7 +53,8 @@ void QTouch::gpioInit(void)
   {
     digitalWrite(capsensepins[i],LOW);
     digitalWrite(loadoutpins[i],HIGH);
-  }  
+  }
+    
   
 }
 /*========================================================================================================

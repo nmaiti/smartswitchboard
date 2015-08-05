@@ -71,6 +71,8 @@ void setup()
   
   My_Receiver.enableIRIn(); // Start the receiver
   digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
+  myTouch.L4_OFF();
+  myTouch.L5_OFF();
   
   
 }  
