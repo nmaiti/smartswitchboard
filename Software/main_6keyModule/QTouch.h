@@ -26,13 +26,12 @@
 
 
 
-
 class QTouch
 {
   
   public:
   
-  int i=0;
+  int i;
   QTouch();        //Constructor
   void gpioInit(void);
   byte readCapsense(void);

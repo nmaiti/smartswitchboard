@@ -1,7 +1,7 @@
-  /* Project: Smart Switch Board Vr1
+/* Project: Smart Switch Board Vr1
    Author:Vikas Gaikwad
    Date  :05/07/2015
-   Descriptions:  This is a Smart Switch board can be communicated with Capsense Touch,IR Remote and a Bluetooth Low Energy using Smart Phone.  
+   Descriptions:  This is a Smart Switch board can be communicated with Capsense Touch Switch Board,IR Remote and a Bluetooth Low Energy [BTL4.0] using Smart Phone.  
                   Followed the Protocol while communicating through BLE4.0 to set and get Acknowledgement from Host microcontroller.
    Note:    1. When User connected to Module over IR Remote and Touch for every event it should update to BLE (in Smartphone App).
             2. Touch || IR Remote || BLE 
@@ -10,7 +10,7 @@
                iii)BLE4.0 =  Acess string to contol and Read Status of Boards   
  */
 
-
+#include <avr/wdt.h>
 #include <TAH.h>
 #include <IRLib.h>
 #include <PinChangeInt.h>
@@ -18,18 +18,6 @@
 #include "IR.h"
 #include "BLE.h"
 
-#define  Lamp1_OFF   0x41  //A
-#define  Lamp1_ON    0x61  //a
-#define  Lamp2_OFF   0x42  //B
-#define  Lamp2_ON    0x62  //b
-#define  Lamp3_OFF   0x43  //C
-#define  Lamp3_ON    0x63  //c
-#define  Lamp4_OFF   0x44  //D
-#define  Lamp4_ON    0x64  //d
-#define  Lamp5_OFF   0x45  //E
-#define  Lamp5_ON    0x65  //e
-#define  master_OFF  0x46  //F
-#define  master_ON   0x66  //f
 
 
 TAH myTAH;
@@ -39,9 +27,13 @@ BLE myBLE;
 
 //Global Variables
 
+int Pin_Type;    //  Stores Pin Type  
+int Pin_No;      //  Stores Pin Number
+int Pin_Value;   //  Stores Pin Value 
+
 int RECV_PIN= 11;
 
-volatile byte touch_input=0,prev_touch_input,temp,change,new_state;
+volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0;
 volatile unsigned long int channel_no;
 int switch_num=0;
@@ -58,7 +50,7 @@ void setup()
 
   myTAH.enterCommandMode();
 
-  myTAH.setName("BedRoom");
+  myTAH.setName("HALL");
   myTAH.setTransmissionPower(Six);
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
@@ -71,9 +63,6 @@ void setup()
   
   My_Receiver.enableIRIn(); // Start the receiver
   digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
-  myTouch.L4_OFF();
-  myTouch.L5_OFF();
-  
   
 }  
 
@@ -101,53 +90,49 @@ void loop()
      
    channel_no =  irDecoder();           //Decode Remote Signals
    touch_input = myTouch.readCapsense();  //Read capsense values
+  // Serial.println(touch_input,HEX);
    
-   
-   if(myTAH.available()>0)          //phone connected and Rx commands
+   if(myTAH.available()>0)                //phone connected and Rx commands
    {
-      // When Smart Phone is connected
-      
-        switch_num = myTAH.read();
-         
+      Pin_Type = myTAH.parseInt();
+      Pin_No = myTAH.parseInt();
+      Pin_Value = myTAH.parseInt();
+
+     // Serial.print(Pin_Type);
+     // Serial.print(",");
+     // Serial.print(Pin_No);
+     // Serial.print(",");
+     // Serial.println(Pin_Value);
+    if(myTAH.read() =='H')
+    {
+        //if Pin Type is 0 means Digital Output      
+       switch(Pin_Type)
+       {
+          case(0):
+                 digitalWrite(Pin_No,Pin_Value); break;
+               
+          case(1):
+                analogWrite(Pin_No,Pin_Value); break;
        
-        
-        switch(switch_num)
-        {
-          case(Lamp1_ON):
-                      myTouch.L1_ON(); break;
-          case(Lamp1_OFF):
-                      myTouch.L1_OFF();break;
-          case(Lamp2_ON):
-                      myTouch.L2_ON(); break;
-          case(Lamp2_OFF):
-                      myTouch.L2_OFF();break;
-          case(Lamp3_ON):
-                      myTouch.L3_ON(); break;
-          case(Lamp3_OFF):
-                      myTouch.L3_OFF();break;
-          case(Lamp4_ON):
-                      myTouch.L4_ON(); break;
-          case(Lamp4_OFF):
-                      myTouch.L4_OFF();break;
-          case(Lamp5_ON):
-                      myTouch.L5_ON(); break;
-          case(Lamp5_OFF):
-                      myTouch.L5_OFF();break;
-          case(master_ON):
-                      myTouch.Master_ON();break;
-          case(master_OFF):
-                      myTouch.Master_OFF();break;
-                      
-        }
-        load_output_status = myTouch.readLoadstatus();myTAH.print("v:");myTAH.print(load_output_status);  //Output Status To update into Smartphone app
+          case(111):
+                  myTouch.Master_ON(); break;
+                 // Serial.println("Master ON"); 
+          case(999):
+                  myTouch.Master_OFF(); break;
+                  //Serial.println("Master OFF"); 
+  
+      }     
+ 
+    }   
+    load_output_status = myTouch.readLoadstatus();/*;myTAH.print("v:");*/myTAH.print(load_output_status);  //Output Status To update into Smartphone app
         
       
    }
-   else if(touch_input != prev_touch_input)
+    if(touch_input != prev_touch_input)
   {
     //when BLE is not connected and signals coming from IR Remote and Capsense Board
-   // Serial.print("Prev Touch:");Serial.println(prev_touch_input,HEX);
-   // Serial.print("Touch_input:");Serial.println(touch_input,HEX);
+    //Serial.print("Prev Touch:");Serial.println(prev_touch_input,HEX);
+    //Serial.print("Touch_input:");Serial.println(touch_input,HEX);
     
     load_output_status = myTouch.readLoadstatus();
    // Serial.print("Load_Status:");Serial.println(load_output_status,HEX);
@@ -166,7 +151,9 @@ void loop()
     myIR.ir_setLoad(channel_no);
   }
 
-  delay(500);
+  delay(500);    //Update Rate
+wdt_enable(WDTO_4S);
+//Serial.println("RESET");
 } // loop
  
 

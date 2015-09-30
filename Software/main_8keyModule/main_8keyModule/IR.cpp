@@ -34,21 +34,28 @@ void IR::FanSpeedControl(byte level)
   switch(curr_level)
   {
     case(Level_1):
-        Serial.println("FAN at Level_1");
-        //Only Level_1 Triac will be ON others OFF
-        break;
+                  //Serial.println("FAN at Level_1");
+                  touch.FAN_ON();touch.Level2_OFF();touch.Level3_OFF();touch.Level4_OFF();
+                  //Only Level_1 Triac will be ON others OFF
+                  break;
     case(Level_2):
-        Serial.println("FAN at Level_2");
-        //Only Level_1 Triac will be ON others OFF
-        break;
+                  //Serial.println("FAN at Level_2");
+                  //Only Level_1 Triac will be ON others OFF
+                  touch.Level2_ON();touch.Level3_OFF();touch.Level4_OFF();
+                  digitalWrite(Level1,LOW);
+                  break;
     case(Level_3):
-        Serial.println("FAN at Level_3");
-       //Only Level_1 Triac will be ON others OFF
-        break;    
+                  //Serial.println("FAN at Level_3");
+                 //Only Level_1 Triac will be ON others OFF
+                  touch.Level3_ON();touch.Level2_OFF();touch.Level4_OFF();
+                  digitalWrite(Level1,LOW);
+                  break;    
     case(Level_4):
-        Serial.println("FAN at Level_4");
-        //Only Level_1 Triac will be ON others OFF
-        break;
+                  //Serial.println("FAN at Level_4");
+                  //Only Level_1 Triac will be ON others OFF
+                  touch.Level4_ON();touch.Level2_OFF();touch.Level3_OFF();
+                  digitalWrite(Level1,LOW);
+                  break;
   }
 }
 
@@ -60,7 +67,7 @@ Set Output Load
 void IR::ir_setLoad(unsigned long int number)
 {
   curr_number = number;
-  prev_number;
+  prev_number;  
   //Serial.print("On Start Prev_Number:");Serial.println(prev_number,HEX);
   switch(curr_number)
   {
@@ -69,13 +76,13 @@ void IR::ir_setLoad(unsigned long int number)
                 if(prev_number != curr_number)  // new key pressed
                 {
                     //Master ON action
-                    Serial.println("Master ON");    //OFF to ON
+                    //Serial.println("Master ON");    //OFF to ON 
                     touch.Master_ON();
                 }                    
                 else
                   {
                     if(curr_number == Master){
-                    Serial.println("MAster OFF");    //ON to OFF
+                    //Serial.println("MAster OFF");    //ON to OFF
                     touch.Master_OFF();
                     //Serial.println("Reset"); 
                     curr_number = 0;
@@ -156,35 +163,19 @@ void IR::ir_setLoad(unsigned long int number)
                 {
                     //Lamp4 ON
                     //Serial.println("Lamp4 ON");    //OFF to ON
-                    touch.L4_ON();
+                    touch.Socket_ON();
                 }                    
                 else
                   {
                     if(curr_number == four){
                     //Serial.println("Lamp4 OFF");    //ON to OFF
-                    touch.L4_OFF();
+                    touch.Socket_OFF();
                     curr_number = 0;
                   }
                   }
                 prev_number = curr_number;
                 break;
-   case(five):
-               if(prev_number != curr_number)  // new key pressed
-                {
-                    //Lamp5 ON
-                    //Serial.println("Lamp5 ON");    //OFF to ON
-                    touch.L5_ON();
-                }                    
-                else
-                  {
-                    if(curr_number == five){
-                    //Serial.println("Lamp5 OFF");    //ON to OFF
-                    touch.L5_OFF();
-                    curr_number = 0;
-                  }
-                  }
-                prev_number = curr_number;          
-                break;
+   
     //Other conditions were never used its a 6 key Module
     //Adding Fan regulator code using IR Remote
    case(FAN):
@@ -192,18 +183,18 @@ void IR::ir_setLoad(unsigned long int number)
                 {
                     Fan_On = true;
                     //FAN ON
-                    Serial.println("FAN ON and Level_1 Triac ON");    //OFF to ON
+                    //Serial.println("FAN ON and Level_1 Triac ON");    //OFF to ON
                     FanSpeedControl(level);    //Set to default level
                                          
                 }                    
                 else                                   //FAN OFF no level UP/DOWN inputs considered 
                 {
                     if(Fan_On == true && curr_number == FAN){
-                    Serial.println("FAN OFF");    //ON to OFF
-                    //touch.L5_OFF();
+                    //Serial.println("FAN OFF");    //ON to OFF
                     curr_number = 0;
                     level = 1;
                     Fan_On = false;
+                    touch.FAN_OFF();
                   }
                 }
                 prev_number = curr_number;          
@@ -213,12 +204,14 @@ case(UP):
                 {
                     level++;
                     //shift to Level_2
-                    Serial.print("UP Level");Serial.println(level);
+                    FanSpeedControl(level);
+                    //Serial.print("UP Level");Serial.println(level);
                 }                    
                 else if(Fan_On == true && curr_number == UP && level <= 3)
                  {
                     level++;
-                    Serial.print("UP Level");Serial.println(level);
+                    FanSpeedControl(level);
+                    //Serial.print("UP Level");Serial.println(level);
                     //shift to level 3
                     curr_number = 0;
                   }
@@ -229,12 +222,14 @@ case(DOWN):
             if(Fan_On == true && prev_number != curr_number)
             {
               level--;
-              Serial.print("DOWN Level:");Serial.println(level);
+              FanSpeedControl(level);
+              //Serial.print("DOWN Level:");Serial.println(level);
             }
             else if(Fan_On == true && curr_number == DOWN && level >2)
             {
               level--;
-              Serial.print("DOWN Level:");Serial.println(level);
+              FanSpeedControl(level);
+              //Serial.print("DOWN Level:");Serial.println(level);
               curr_number = 0;
             }
             prev_number = curr_number;

@@ -172,7 +172,7 @@ byte QTouch::readCapsense()
   boolean l5 = digitalRead(Lamp5);
   boolean l6 = digitalRead(Master);
   
-  byte no[8] = {l1,l2,l3,l4,l5,l6};
+  byte no[8] = {l1,l2,l3,l4,l5,l6};//no[0] = LSB
   byte val=0;
   
   for(int i=0;i<=7;i++)
@@ -329,3 +329,5 @@ byte QTouch::readLoadstatus(void)
   //Serial.print(val);
   return val;
 }
+
+
