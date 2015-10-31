@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.003125" unitdist="mic" unit="mm" style="lines" multiple="1" display="no" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
@@ -215,6 +215,11 @@
 <text x="118.59981875" y="6.676415625" size="1.016" layer="21" font="vector" ratio="20" rot="R90">!RST</text>
 <text x="108.3020875" y="6.5939375" size="1.016" layer="21" font="vector" ratio="20" rot="R90">3V3</text>
 <text x="110.438871875" y="6.57796875" size="1.016" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="124.315221875" y="6.66753125" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="126.751215625" y="6.68176875" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">VCC</text>
+<text x="122.334275" y="6.703953125" size="1.016" layer="21" font="vector" ratio="20" rot="R90">SIG</text>
+<text x="33.798959375" y="6.16760625" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="32.341659375" y="6.09205625" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">VCC</text>
 </plain>
 <libraries>
 <library name="Morsun-con-stocko">
@@ -3296,7 +3301,7 @@ design rules under a new name.</description>
 <wire x1="58.68065" y1="52.7103375" x2="79.444371875" y2="52.7103375" width="1.6764" layer="16"/>
 <wire x1="79.444371875" y1="52.7103375" x2="81.602959375" y2="50.55175" width="1.6764" layer="16"/>
 <wire x1="81.602959375" y1="50.55175" x2="83.910003125" y2="50.55175" width="1.6764" layer="16"/>
-<polygon width="0.254" layer="16">
+<polygon width="0.254" layer="16" isolate="1.27">
 <vertex x="22.741525" y="41.046784375"/>
 <vertex x="56.563440625" y="41.046784375"/>
 <vertex x="67.243284375" y="51.726628125"/>
@@ -3328,19 +3333,19 @@ design rules under a new name.</description>
 <wire x1="88.913803125" y1="52.788075" x2="88.913803125" y2="50.55175" width="1.6764" layer="16"/>
 <wire x1="88.913803125" y1="50.55175" x2="93.892203125" y2="50.55175" width="1.6764" layer="16"/>
 <polygon width="0.254" layer="16">
-<vertex x="12.2588125" y="44.6324"/>
-<vertex x="12.2588125" y="47.570790625"/>
-<vertex x="20.3629625" y="55.674940625"/>
-<vertex x="55.541859375" y="55.674940625"/>
-<vertex x="57.0951625" y="54.1216375"/>
-<vertex x="57.048446875" y="54.1216375"/>
-<vertex x="52.37570625" y="49.448896875"/>
-<vertex x="37.965678125" y="49.448896875"/>
-<vertex x="33.03619375" y="54.37838125"/>
-<vertex x="26.223071875" y="54.37838125"/>
-<vertex x="16.4668" y="44.622109375"/>
-<vertex x="12.295109375" y="44.622109375"/>
-<vertex x="12.26318125" y="44.6540375"/>
+<vertex x="13.478840625" y="45.592253125"/>
+<vertex x="17.93973125" y="45.592253125"/>
+<vertex x="26.76211875" y="54.414640625"/>
+<vertex x="36.489034375" y="54.414640625"/>
+<vertex x="40.266684375" y="50.636990625"/>
+<vertex x="51.56273125" y="50.636990625"/>
+<vertex x="55.2712625" y="54.345521875"/>
+<vertex x="55.2712625" y="55.852028125"/>
+<vertex x="55.285859375" y="55.866625"/>
+<vertex x="20.343875" y="55.866625"/>
+<vertex x="13.016340625" y="48.539090625"/>
+<vertex x="13.016340625" y="46.051234375"/>
+<vertex x="13.46691875" y="45.60065625"/>
 </polygon>
 </signal>
 <signal name="!RESET">
@@ -5636,15 +5641,6 @@ design rules under a new name.</description>
 <vertex x="57.4196125" y="40.739621875"/>
 <vertex x="57.4196125" y="56.737846875"/>
 <vertex x="0.25125625" y="56.737846875"/>
-</polygon>
-</signal>
-<signal name="N$110">
-<polygon width="0.254" layer="16" isolate="0.6096">
-<vertex x="0.17195" y="56.55085"/>
-<vertex x="0.17195" y="40.668103125"/>
-<vertex x="57.40088125" y="40.668103125"/>
-<vertex x="57.40088125" y="56.549484375"/>
-<vertex x="0.17354375" y="56.549484375"/>
 </polygon>
 </signal>
 </signals>

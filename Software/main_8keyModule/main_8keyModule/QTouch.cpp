@@ -48,7 +48,13 @@ void QTouch::gpioInit(void)
   }  
   
   //Set pinValue to LOW
-  
+  /*digitalWrite(Lamp1,LOW);
+  digitalWrite(Lamp2,LOW);
+  digitalWrite(Lamp3,LOW);
+  digitalWrite(Socket,LOW);
+  digitalWrite(Fan_Control,LOW);
+  digitalWrite(Up,LOW);
+  digitalWrite(Down,LOW);    */
   for(int i=0;i<8;i++)
   {
     digitalWrite(capsensepins[i],LOW);
@@ -65,7 +71,7 @@ void QTouch::gpioInit(void)
 
 ==========================================================================================================*/
 
-void QTouch::L1_ON(void)
+void QTouch::L1_ON(void)  
 {
   digitalWrite(Load1,HIGH);
 }
@@ -89,7 +95,7 @@ void QTouch::FAN_ON(void)
 {
   //Fan switch on and Level set to Default i.e Level-1
   digitalWrite(Level1,HIGH);    //set to Level-1
-  Level2_OFF();Level3_OFF();Level4_OFF();Socket_OFF();
+  Level2_OFF();Level3_OFF();Level4_OFF();
 }
 void QTouch::Level2_ON(void)
 {

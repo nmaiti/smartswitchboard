@@ -224,6 +224,22 @@
 <text x="49.165634375" y="47.314809375" size="1.27" layer="21" font="vector" ratio="20">N</text>
 <text x="37.09445" y="17.884303125" size="1.4224" layer="21" font="vector" ratio="20">+</text>
 <text x="45.00316875" y="18.190890625" size="1.4224" layer="21" font="vector" ratio="20">-</text>
+<text x="206.562253125" y="34.45355625" size="1.016" layer="21" font="vector" ratio="20" rot="R90">SIG</text>
+<text x="204.1145625" y="34.4530375" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="201.529025" y="34.372884375" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">VCC</text>
+<text x="195.934778125" y="35.906871875" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="189.362903125" y="36.5717875" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">!RST</text>
+<text x="191.77096875" y="35.856878125" size="1.016" layer="21" font="vector" ratio="20" rot="R90">RX</text>
+<text x="193.732340625" y="35.84526875" size="1.016" layer="21" font="vector" ratio="20" rot="R90">TX</text>
+<text x="206.752071875" y="6.13075" size="1.016" layer="21" font="vector" ratio="20" rot="R90">SIG</text>
+<text x="204.049578125" y="6.04314375" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="202.37770625" y="6.243025" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">VCC</text>
+<text x="198.710240625" y="6.335459375" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">3V3</text>
+<text x="198.534346875" y="35.89575" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">3V3</text>
+<text x="195.82715" y="6.345615625" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">GND</text>
+<text x="193.627753125" y="6.329621875" size="1.016" layer="21" font="vector" ratio="20" rot="R90">TX</text>
+<text x="191.791496875" y="6.371903125" size="1.016" layer="21" font="vector" ratio="20" rot="R90">RX</text>
+<text x="188.9863" y="7.704709375" size="0.8128" layer="21" font="vector" ratio="20" rot="R90">!RST</text>
 </plain>
 <libraries>
 <library name="Morsun-con-stocko">

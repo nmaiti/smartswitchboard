@@ -12,8 +12,9 @@
 
 #include <avr/wdt.h>
 #include <TAH.h>
-#include <IRLib.h>
-#include <PinChangeInt.h>
+//#include <IRLib.h>
+#include <Servo.h>
+//#include <PinChangeInt.h>
 #include "QTouch.h"
 #include "IR.h"
 #include "BLE.h"
@@ -22,7 +23,7 @@
 
 TAH myTAH;
 QTouch myTouch;  //objects
-IR myIR;
+//IR myIR;
 BLE myBLE;
 
 //Global Variables
@@ -31,7 +32,9 @@ int Pin_Type;    //  Stores Pin Type
 int Pin_No;      //  Stores Pin Number
 int Pin_Value;   //  Stores Pin Value 
 
-int RECV_PIN= 11;
+Servo servo[12];
+
+//int RECV_PIN= 11;
 
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0;
@@ -39,8 +42,8 @@ volatile unsigned long int channel_no;
 int switch_num=0;
 
 
-IRrecv My_Receiver(RECV_PIN);
-IRdecode My_Decoder;
+//IRrecv My_Receiver(RECV_PIN);
+//IRdecode My_Decoder;
 
 
 void setup()
@@ -50,7 +53,7 @@ void setup()
 
   myTAH.enterCommandMode();
 
-  myTAH.setName("HALL");
+  myTAH.setName("Kitchen");
   myTAH.setTransmissionPower(Six);
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
@@ -61,11 +64,11 @@ void setup()
 
   myTouch.gpioInit();    // set all pins
   
-  My_Receiver.enableIRIn(); // Start the receiver
-  digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
+  //My_Receiver.enableIRIn(); // Start the receiver
+  //digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
   
 }  
-
+/*
 unsigned long int irDecoder()
 {
      if (My_Receiver.GetResults(&My_Decoder)) {
@@ -81,16 +84,16 @@ unsigned long int irDecoder()
    }
   
 }
-
+*/
 
 
 void loop()
 {  
    
      
-   channel_no =  irDecoder();           //Decode Remote Signals
+  // channel_no =  irDecoder();           //Decode Remote Signals
    touch_input = myTouch.readCapsense();  //Read capsense values
-  // Serial.println(touch_input,HEX);
+   //Serial.println(touch_input,HEX);
    
    if(myTAH.available()>0)                //phone connected and Rx commands
    {
@@ -98,20 +101,31 @@ void loop()
       Pin_No = myTAH.parseInt();
       Pin_Value = myTAH.parseInt();
 
-     // Serial.print(Pin_Type);
-     // Serial.print(",");
-     // Serial.print(Pin_No);
-     // Serial.print(",");
-     // Serial.println(Pin_Value);
-    if(myTAH.read() =='H')
+      Serial.print(Pin_Type);
+      Serial.print(",");
+      Serial.print(Pin_No);
+      Serial.print(","); 
+      Serial.println(Pin_Value);
+    if(myTAH.read() =='R')
     {
         //if Pin Type is 0 means Digital Output      
        switch(Pin_Type)
        {
           case(0):
-                 digitalWrite(Pin_No,Pin_Value); break;
+                  if((Pin_No == Level1 || Pin_No == Level2 || Pin_No == Level3 || Pin_No == Level4) && (Pin_Value == 1)) 
+                  {
+                    if(Pin_No == Level1 && Pin_Value ==1){ myTouch.FAN_ON();}
+                    if(Pin_No == Level2 && Pin_Value ==1){ myTouch.Level2_ON();}
+                    if(Pin_No == Level3 && Pin_Value ==1) {myTouch.Level3_ON();}
+                    if(Pin_No == Level4 && Pin_Value ==1) {myTouch.Level4_ON();}   
+                  }
+                  else
+                    servo[Pin_No].detach();
+                    digitalWrite(Pin_No,Pin_Value); break;
+          
+          case(222):myTouch.FAN_OFF();
                
-          case(1):
+          case(1):  //PWM dimming
                 analogWrite(Pin_No,Pin_Value); break;
        
           case(111):
@@ -146,11 +160,11 @@ void loop()
     prev_touch_input = touch_input;
     
   }
- if(channel_no !=0 && (channel_no == Master || channel_no == one || channel_no == two || channel_no == three || channel_no == four || channel_no == five || channel_no == six || channel_no == seven || channel_no == eight || channel_no == nine || channel_no == zero || channel_no == FAN || channel_no == UP || channel_no == DOWN))
+ /*if(channel_no !=0 && (channel_no == Master || channel_no == one || channel_no == two || channel_no == three || channel_no == four || channel_no == five || channel_no == six || channel_no == seven || channel_no == eight || channel_no == nine || channel_no == zero || channel_no == FAN || channel_no == UP || channel_no == DOWN))
   {
     myIR.ir_setLoad(channel_no);
   }
-
+*/
   delay(500);    //Update Rate
 wdt_enable(WDTO_4S);
 //Serial.println("RESET");
