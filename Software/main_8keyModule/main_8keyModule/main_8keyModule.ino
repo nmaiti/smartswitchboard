@@ -12,8 +12,8 @@
 
 #include <avr/wdt.h>
 #include <TAH.h>
-//#include <IRLib.h>
-#include <Servo.h>
+#include <IRLib.h>
+//#include <Servo.h>
 //#include <PinChangeInt.h>
 #include "QTouch.h"
 #include "IR.h"
@@ -23,7 +23,7 @@
 
 TAH myTAH;
 QTouch myTouch;  //objects
-//IR myIR;
+IR myIR;
 BLE myBLE;
 
 //Global Variables
@@ -32,9 +32,9 @@ int Pin_Type;    //  Stores Pin Type
 int Pin_No;      //  Stores Pin Number
 int Pin_Value;   //  Stores Pin Value 
 
-Servo servo[12];
+//Servo servo[12];
 
-//int RECV_PIN= 11;
+int RECV_PIN= 11;
 
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0;
@@ -42,8 +42,8 @@ volatile unsigned long int channel_no;
 int switch_num=0;
 
 
-//IRrecv My_Receiver(RECV_PIN);
-//IRdecode My_Decoder;
+IRrecv My_Receiver(RECV_PIN);
+IRdecode My_Decoder;
 
 
 void setup()
@@ -53,7 +53,7 @@ void setup()
 
   myTAH.enterCommandMode();
 
-  myTAH.setName("Kitchen");
+  myTAH.setName("Bed Room");
   myTAH.setTransmissionPower(Six);
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
@@ -64,25 +64,26 @@ void setup()
 
   myTouch.gpioInit();    // set all pins
   
-  //My_Receiver.enableIRIn(); // Start the receiver
-  //digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
-  
+  My_Receiver.enableIRIn(); // Start the receiver
+  digitalWrite(RECV_PIN, HIGH); //use the internal pullup resistor
+  //PCintPort::attachInterrupt(RECV_PIN,irControl,RISING); // attach a PinChange Interrupt to our pin on the rising edge
+    
 }  
 /*
-unsigned long int irDecoder()
-{
-     if (My_Receiver.GetResults(&My_Decoder)) {
+void irControl()
+{ Serial.println("******************");
+    if (My_Receiver.GetResults(&My_Decoder)) {
     //Restart the receiver so it can be capturing another code
     //while we are working on decoding this one.
     My_Receiver.resume(); 
     My_Decoder.decode();
     //My_Decoder.DumpResults();
     unsigned long int decodedValue =0;
-    decodedValue = My_Decoder.value;
-        
-    return decodedValue; 
-   }
-  
+    channel_no = My_Decoder.value;
+    Serial.print("Channel No:");Serial.println(channel_no,HEX);
+    
+    myIR.ir_setLoad(channel_no);        //set the Load
+  }
 }
 */
 
@@ -106,7 +107,7 @@ void loop()
       Serial.print(Pin_No);
       Serial.print(","); 
       Serial.println(Pin_Value);
-    if(myTAH.read() =='R')
+    if(myTAH.read() =='H')
     {
         //if Pin Type is 0 means Digital Output      
        switch(Pin_Type)
@@ -120,12 +121,12 @@ void loop()
                     if(Pin_No == Level4 && Pin_Value ==1) {myTouch.Level4_ON();}   
                   }
                   else
-                    servo[Pin_No].detach();
                     digitalWrite(Pin_No,Pin_Value); break;
           
           case(222):myTouch.FAN_OFF();
                
           case(1):  //PWM dimming
+                //servo[Pin_No].detach();
                 analogWrite(Pin_No,Pin_Value); break;
        
           case(111):
@@ -160,6 +161,20 @@ void loop()
     prev_touch_input = touch_input;
     
   }
+ 
+ if (My_Receiver.GetResults(&My_Decoder)) {
+    //Restart the receiver so it can be capturing another code
+    //while we are working on decoding this one.
+    My_Receiver.resume(); 
+    My_Decoder.decode();
+    //My_Decoder.DumpResults();
+    unsigned long int decodedValue =0;
+    channel_no = My_Decoder.value;
+    Serial.print("Channel No:");Serial.println(channel_no,HEX);
+    
+    myIR.ir_setLoad(channel_no);        //set the Load
+  }
+  
  /*if(channel_no !=0 && (channel_no == Master || channel_no == one || channel_no == two || channel_no == three || channel_no == four || channel_no == five || channel_no == six || channel_no == seven || channel_no == eight || channel_no == nine || channel_no == zero || channel_no == FAN || channel_no == UP || channel_no == DOWN))
   {
     myIR.ir_setLoad(channel_no);
