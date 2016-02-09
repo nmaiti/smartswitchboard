@@ -18458,9 +18458,9 @@ grid 2.54 mm</description>
 <wire x1="5.08" y1="-1.143" x2="4.953" y2="-4.064" width="0.1524" layer="21"/>
 <wire x1="-4.953" y1="-4.064" x2="-5.08" y2="-1.143" width="0.1524" layer="21"/>
 <circle x="-4.4958" y="-3.7084" radius="0.254" width="0" layer="21"/>
-<pad name="T1" x="-2.54" y="-2.54" drill="0.9" diameter="1.4224" shape="long" rot="R90"/>
-<pad name="T2" x="0" y="-2.54" drill="0.9" diameter="1.4224" shape="long" rot="R90"/>
-<pad name="G" x="2.54" y="-2.54" drill="0.9" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="T1" x="-2.54" y="-2.54" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="T2" x="0" y="-2.54" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="G" x="2.54" y="-2.54" drill="1" diameter="1.4224" shape="long" rot="R90"/>
 <text x="4.583028125" y="-3.9645" size="0.8128" layer="25" font="vector" ratio="15" rot="R90">&gt;NAME</text>
 <rectangle x1="-5.334" y1="-0.762" x2="5.334" y2="0" layer="21"/>
 <rectangle x1="-5.334" y1="-1.27" x2="-3.429" y2="-0.762" layer="21"/>
@@ -21897,16 +21897,16 @@ We've spent an enormous amount of time creating and checking these footprints an
 You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
 <packages>
 <package name="BUTTON-CONDUCTIVE">
-<wire x1="0" y1="-1.905" x2="0" y2="2.54" width="0.2032" layer="1"/>
-<wire x1="0.635" y1="1.905" x2="0.635" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="1.27" y1="-1.27" x2="1.27" y2="2.54" width="0.2032" layer="1"/>
-<wire x1="-0.635" y1="1.905" x2="-0.635" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="-1.27" y1="-1.27" x2="-1.27" y2="2.54" width="0.2032" layer="1"/>
-<wire x1="-1.905" y1="1.27" x2="-1.905" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="1.905" y1="1.27" x2="1.905" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="-1.905" y1="-2.54" x2="2.54" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="-1.27" y1="2.54" x2="2.54" y2="2.54" width="0.2032" layer="1"/>
-<circle x="0" y="0" radius="2.032" width="0.127" layer="51"/>
+<wire x1="0" y1="-1.905" x2="0" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="0.635" y1="1.905" x2="0.635" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="1.27" y1="-1.27" x2="1.27" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="-0.635" y1="1.905" x2="-0.635" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="-1.27" y1="-1.27" x2="-1.27" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="-1.905" y1="1.27" x2="-1.905" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="1.905" y1="1.27" x2="1.905" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="-1.905" y1="-2.54" x2="2.54" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="-1.27" y1="2.54" x2="2.54" y2="2.54" width="0.3048" layer="1"/>
+<circle x="0" y="0" radius="2.032" width="0.3048" layer="51"/>
 <circle x="0" y="0" radius="1" width="2" layer="29"/>
 <smd name="1" x="2.54" y="2.54" dx="0.2032" dy="0.2032" layer="1" stop="no" cream="no"/>
 <smd name="2" x="2.54" y="-2.54" dx="0.2032" dy="0.2032" layer="1" stop="no" cream="no"/>
