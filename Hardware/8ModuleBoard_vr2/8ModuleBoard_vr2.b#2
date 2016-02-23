@@ -58,8 +58,8 @@
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
@@ -4256,14 +4256,14 @@ design rules under a new name.</description>
 <via x="113.745821875" y="15.10005625" extent="1-16" drill="0.8" diameter="1.27"/>
 <wire x1="113.745821875" y1="15.10005625" x2="111.33114375" y2="12.92075625" width="0.8128" layer="1"/>
 <wire x1="111.33114375" y1="12.92075625" x2="108.3213125" y2="12.92075625" width="0.8128" layer="1"/>
-<polygon width="0.254" layer="16" isolate="0.6096">
+<polygon width="0.254" layer="16" isolate="0.8128">
 <vertex x="-0.037553125" y="56.469503125"/>
 <vertex x="-0.037553125" y="-0.0312875"/>
 <vertex x="180.733553125" y="-0.0312875"/>
 <vertex x="180.733553125" y="56.473546875"/>
 <vertex x="-0.040421875" y="56.473546875"/>
 </polygon>
-<polygon width="0.3048" layer="1" isolate="0.6096">
+<polygon width="0.3048" layer="1" isolate="0.8128">
 <vertex x="0.093871875" y="56.381896875"/>
 <vertex x="0.093871875" y="-0.026071875"/>
 <vertex x="180.6738125" y="-0.026071875"/>

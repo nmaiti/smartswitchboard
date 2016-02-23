@@ -25843,21 +25843,11 @@ Sourc: www.ctscorp.com</description>
 <wire x1="347.98" y1="-233.68" x2="365.76" y2="-233.68" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$28" class="0">
-<segment>
-<pinref part="TX" gate="G$1" pin="+5V"/>
-<wire x1="408.94" y1="-231.14" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
-<wire x1="381" y1="-236.22" x2="381" y2="-238.76" width="0.1524" layer="91"/>
-<wire x1="381" y1="-238.76" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
-<pinref part="S2" gate="1" pin="S"/>
-<wire x1="373.38" y1="-236.22" x2="381" y2="-236.22" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="V+" class="0">
 <segment>
 <pinref part="IC3" gate="G$1" pin="VDD"/>
-<wire x1="335.28" y1="-276.86" x2="335.28" y2="-269.24" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="V+"/>
+<wire x1="335.28" y1="-276.86" x2="335.28" y2="-269.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="0" gate="G$1" pin="1"/>
@@ -26231,6 +26221,16 @@ Sourc: www.ctscorp.com</description>
 <wire x1="744.22" y1="-248.92" x2="744.22" y2="-251.46" width="0.1524" layer="91"/>
 <wire x1="744.22" y1="-251.46" x2="741.68" y2="-251.46" width="0.1524" layer="91"/>
 <junction x="741.68" y="-251.46"/>
+</segment>
+</net>
+<net name="N$28" class="0">
+<segment>
+<pinref part="TX" gate="G$1" pin="+5V"/>
+<wire x1="408.94" y1="-231.14" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
+<wire x1="381" y1="-238.76" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
+<wire x1="381" y1="-236.22" x2="381" y2="-238.76" width="0.1524" layer="91"/>
+<pinref part="S2" gate="1" pin="S"/>
+<wire x1="373.38" y1="-236.22" x2="381" y2="-236.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

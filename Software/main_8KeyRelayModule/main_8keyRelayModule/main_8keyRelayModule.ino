@@ -12,12 +12,18 @@
 
 #include <avr/wdt.h>
 #include <TAH.h>
+#include <EEPROM.h>
+#include <Wire.h>   // Date and time functions using a DS1307 RTC connected via I2C and Wire lib
 #include "QTouch.h"
 #include "BLE.h"
+#include "RTClib.h"
 
-TAH myTAH;
-QTouch myTouch;  //objects
-//BLE myTAH;
+
+
+RTC_DS1307 rtc;
+TAH myTAH;          // Object Variables
+QTouch myTouch;  
+
 
 //Global Variables
 
@@ -28,9 +34,7 @@ int Pin_Value;   //  Stores Pin Value
 
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0;
-//volatile unsigned long int channel_no;
 int switch_num=0;
-
 
 
 void setup()
@@ -45,12 +49,25 @@ void setup()
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
   myTAH.setWorkMode(REMOTE_CONTROL);
-  myTAH.setiBeaconMode(ON);
+  myTAH.setiBeaconMode(On);
   
   myTAH.exitCommandMode();
 
   myTouch.gpioInit();    // set all pins
-  
+
+  if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+
+  if (! rtc.isrunning()) {
+    Serial.println("RTC is NOT running!");
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    //rtc.adjust(DateTime(2016, 2, 12, 17, 25, 0));
+  }
     
 }  
 

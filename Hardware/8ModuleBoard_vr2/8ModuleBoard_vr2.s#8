@@ -23739,7 +23739,7 @@ Sourc: www.ctscorp.com</description>
 <text x="391.16" y="-142.24" size="3.81" layer="95" font="vector" ratio="15">Level-4</text>
 <text x="340.36" y="-55.88" size="5.08" layer="95" font="vector" ratio="15">Fan Regulator</text>
 <text x="236.22" y="83.82" size="3.81" layer="95" font="vector" ratio="15">Bluetooth Section</text>
-<text x="358.14" y="-160.02" size="1.778" layer="95" font="vector" ratio="14">Add MOV inFAN REGULATOR</text>
+<text x="360.68" y="-154.94" size="1.778" layer="95" font="vector" ratio="14">Add MOV inFAN REGULATOR</text>
 <text x="403.86" y="83.82" size="5.08" layer="95" font="vector" ratio="17">RTC Managment</text>
 <text x="607.06" y="81.28" size="5.08" layer="95" font="vector" ratio="17">Temperature Sensor Module</text>
 <text x="594.36" y="-43.18" size="5.08" layer="95" font="vector" ratio="19">RF Receiver 434 MHz</text>

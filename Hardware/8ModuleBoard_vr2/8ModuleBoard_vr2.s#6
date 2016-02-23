@@ -21897,16 +21897,16 @@ We've spent an enormous amount of time creating and checking these footprints an
 You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
 <packages>
 <package name="BUTTON-CONDUCTIVE">
-<wire x1="0" y1="-1.905" x2="0" y2="2.54" width="0.2032" layer="1"/>
-<wire x1="0.635" y1="1.905" x2="0.635" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="1.27" y1="-1.27" x2="1.27" y2="2.54" width="0.2032" layer="1"/>
-<wire x1="-0.635" y1="1.905" x2="-0.635" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="-1.27" y1="-1.27" x2="-1.27" y2="2.54" width="0.2032" layer="1"/>
-<wire x1="-1.905" y1="1.27" x2="-1.905" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="1.905" y1="1.27" x2="1.905" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="-1.905" y1="-2.54" x2="2.54" y2="-2.54" width="0.2032" layer="1"/>
-<wire x1="-1.27" y1="2.54" x2="2.54" y2="2.54" width="0.2032" layer="1"/>
-<circle x="0" y="0" radius="2.032" width="0.127" layer="51"/>
+<wire x1="0" y1="-1.905" x2="0" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="0.635" y1="1.905" x2="0.635" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="1.27" y1="-1.27" x2="1.27" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="-0.635" y1="1.905" x2="-0.635" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="-1.27" y1="-1.27" x2="-1.27" y2="2.54" width="0.3048" layer="1"/>
+<wire x1="-1.905" y1="1.27" x2="-1.905" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="1.905" y1="1.27" x2="1.905" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="-1.905" y1="-2.54" x2="2.54" y2="-2.54" width="0.3048" layer="1"/>
+<wire x1="-1.27" y1="2.54" x2="2.54" y2="2.54" width="0.3048" layer="1"/>
+<circle x="0" y="0" radius="2.032" width="0.3048" layer="51"/>
 <circle x="0" y="0" radius="1" width="2" layer="29"/>
 <smd name="1" x="2.54" y="2.54" dx="0.2032" dy="0.2032" layer="1" stop="no" cream="no"/>
 <smd name="2" x="2.54" y="-2.54" dx="0.2032" dy="0.2032" layer="1" stop="no" cream="no"/>

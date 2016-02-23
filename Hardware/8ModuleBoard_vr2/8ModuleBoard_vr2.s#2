@@ -23728,11 +23728,6 @@ Sourc: www.ctscorp.com</description>
 <plain>
 <text x="-17.78" y="88.9" size="3.81" layer="104" font="vector" ratio="19">Power Supply Section</text>
 <text x="-96.52" y="-241.3" size="5.08" layer="95" font="vector" ratio="20">Microcontroller Unit</text>
-<text x="33.02" y="-96.52" size="1.778" layer="95">SOCKET</text>
-<text x="33.02" y="-99.06" size="1.778" layer="95">LEVEL4</text>
-<text x="33.02" y="-101.6" size="1.778" layer="95">LEVEL3</text>
-<text x="33.02" y="-104.14" size="1.778" layer="95">LEVEL2</text>
-<text x="33.02" y="-106.68" size="1.778" layer="95">LEVEL1</text>
 <text x="297.18" y="-101.6" size="3.81" layer="95" font="vector" ratio="15">Level-1</text>
 <text x="297.18" y="-142.24" size="3.81" layer="95" font="vector" ratio="15">Level-2</text>
 <text x="391.16" y="-104.14" size="3.81" layer="95" font="vector" ratio="15">Level-3</text>
