@@ -35,13 +35,20 @@ QTouch::QTouch()
 ==========================================================================================================*/
 void QTouch::gpioInit(void)
 {
+
+  //Input Pins
+
+  PORTC = 0b10000000;   // PC7 Input others Output mode
+  PORTF = 0xFF;         // all pins are Input pins
+  PORTB = 0b00001111;   // bit 0,1,2,3 RF - Inputs others Output Pins
   
-   uint8_t capsensepins[8] = {Lamp1,Lamp2,Lamp3,Socket,Fan_Control,Up,Down};
-   uint8_t loadoutpins[8] = {Load1,Load2,Load3,Load4,Level1,Level2,Level3,Level4};//Load6=NC
+  
+  // uint8_t capsensepins[8] = {Lamp1,Lamp2,Lamp3,Socket,Fan_Control,Up,Down};
+  // uint8_t loadoutpins[8] = {Load1,Load2,Load3,Load4,Level1,Level2,Level3,Level4};//Load6=NC
 
   //Set Pinmodes of I/O pins
 
-  for(uint8_t i=0;i<8;i++)
+ /*1 for(uint8_t i=0;i<8;i++)
   {
     pinMode(capsensepins[i],INPUT);
     pinMode(loadoutpins[i],OUTPUT);
@@ -55,11 +62,11 @@ void QTouch::gpioInit(void)
   digitalWrite(Fan_Control,LOW);
   digitalWrite(Up,LOW);
   digitalWrite(Down,LOW);    */
-  for(uint8_t i=0;i<8;i++)
+ /* for(uint8_t i=0;i<8;i++)
   {
     digitalWrite(capsensepins[i],LOW);
     digitalWrite(loadoutpins[i],LOW);
-  }
+  } */
     
 }
 
@@ -83,63 +90,96 @@ void QTouch:: LightControl(uint8_t pinNo, uint8_t pinValue)
 
 void QTouch::L1_ON(void)  
 {
-  digitalWrite(Load1,HIGH);
+  PORTC |= (1<<PC6);
+  //digitalWrite(Load1,HIGH);
 }
 
 void QTouch::L2_ON(void)
 {
-  digitalWrite(Load2,HIGH);
+  PORTB |= (1<<PB6);
+  //digitalWrite(Load2,HIGH);
 }
 
 void QTouch::L3_ON(void)
 {
-  digitalWrite(Load3,HIGH);
+  PORTB |= (1<<PB5);
+  //digitalWrite(Load3,HIGH);
 }
 
 void QTouch::Socket_ON(void)      //Socket Control SW
 {
-  digitalWrite(Load4,HIGH);
+  PORTB |= (1<<PB4);
+  //digitalWrite(Load4,HIGH);
 }
 
 void QTouch::FAN_ON(void)
 {
   //Fan switch on and Level set to Default i.e Level-1
-  digitalWrite(Level1,HIGH);    //set to Level-1
-  Level2_OFF();Level3_OFF();Level4_OFF();
+  //digitalWrite(Level1,HIGH);    //set to Level-1
+  //Level2_OFF();Level3_OFF();Level4_OFF();
+  
+  PORTB |= (1<<PB7);    //Level1 ON
+  PORTD &= (0<<PD4);    //Level 2 OFF
+  PORTD &= (0<<PD6);    //Level 3 OFF
+  PORTD &= (0<<PD7);    //Level 4 OFF
+  
 }
+
 void QTouch::Level2_ON(void)
 {
-  digitalWrite(Level2,HIGH);
-  digitalWrite(Level1,LOW);Level3_OFF();Level4_OFF();
+  //digitalWrite(Level2,HIGH);
+  
+  PORTD |= (1<<PD4);    //Level 2 ON
+  Level3_OFF();Level4_OFF();
+  digitalWrite(Level1,LOW);
+ 
+  //PORTB &= (0<<PB7);    //Level 1 OFF
+  //PORTD &= (0<<PD6);    //Level 3 OFF
+  //PORTD &= (0<<PD7);    //Level 4 OFF
+ 
 }
 
 void QTouch::Level3_ON(void)
 {
-  digitalWrite(Level3,HIGH);
-  digitalWrite(Level1,LOW);Level2_OFF();Level4_OFF();
+  //digitalWrite(Level3,HIGH);
+  
+  PORTD |= (1<<PD6);    //Leevel 3 ON
+  digitalWrite(Level1,LOW);
+  Level2_OFF();Level4_OFF();
+  
+  //PORTB &= (0<<PB7);    //Level 1 OFF
+  //PORTD &= (0<<PD4);    //Level 2 OFF
+  //PORTD &= (0<<PD7);    //Level 4 OFF
+ 
 }
 
 void QTouch::Level4_ON(void)
 {
-  digitalWrite(Level4,HIGH);
-  digitalWrite(Level1,LOW);Level2_OFF();Level3_OFF();
+  //digitalWrite(Level4,HIGH);
+  
+  PORTD |= (1<<PD7);    //Level 4 ON
+  digitalWrite(Level1,LOW);
+  Level2_OFF();Level3_OFF();
+  
+  //PORTB &= (0<<PB7);    //Level 1 OFF
+  //PORTD &= (0<<PD4);    //Level 2 OFF
+  //PORTD &= (0<<PD6);    //Level 3 OFF
+ 
 }
 
   
 void QTouch::Master_ON(void)  // Now Master is ON == Make ALL ON
 {
   //curr_status = getstatus;
-  /*digitalWrite(Load1,HIGH);
-  digitalWrite(Load2,HIGH);
-  digitalWrite(Load3,HIGH);
-  digitalWrite(Load4,HIGH);  //Make them ON
-  digitalWrite(Load5,HIGH);
-  delay(5000);  */
-  digitalWrite(Load1,HIGH);
-  digitalWrite(Load2,HIGH);
-  digitalWrite(Load3,HIGH);
+  //digitalWrite(Load1,HIGH);
+  //digitalWrite(Load2,HIGH);
+  //digitalWrite(Load3,HIGH);
   //digitalWrite(Load4,HIGH);  //Make them OFF
-  Socket_ON();
+  //Socket_ON();
+  PORTC |= (1<<PC6);    //Load 1 ON
+  PORTB |= (1<<PB6);    //Load 2 ON
+  PORTB |= (1<<PB5);    //Load 3 ON
+  PORTB |= (1<<PB4);    //Load 4 ON
   FAN_ON();                  //Fan at Default Speed Level -1
 }
 /*========================================================================================================

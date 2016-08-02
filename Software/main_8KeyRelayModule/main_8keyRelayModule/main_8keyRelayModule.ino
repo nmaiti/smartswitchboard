@@ -16,13 +16,15 @@
 #include <Wire.h>   // Date and time functions using a DS1307 RTC connected via I2C and Wire lib
 #include "QTouch.h"
 #include "BLE.h"
-#include "RTClib.h"
+//#include "RTClib.h"
 
 
 
-RTC_DS1307 rtc;
+//RTC_DS1307 rtc;
 TAH myTAH;          // Object Variables
 QTouch myTouch;  
+
+//char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
 
 //Global Variables
@@ -33,8 +35,9 @@ int Pin_Value;   //  Stores Pin Value
 
 
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
-volatile byte load_output_status=0;
+volatile byte load_output_status=0,output_TouchStatus=0;
 int switch_num=0;
+
 
 
 void setup()
@@ -44,7 +47,7 @@ void setup()
 
   myTAH.enterCommandMode();
 
-  myTAH.setName("Bed Room");
+  myTAH.setName("Vikas");
   myTAH.setTransmissionPower(Six);
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
@@ -54,7 +57,7 @@ void setup()
   myTAH.exitCommandMode();
 
   myTouch.gpioInit();    // set all pins
-
+/*
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
     while (1);
@@ -68,7 +71,7 @@ void setup()
     // January 21, 2014 at 3am you would call:
     //rtc.adjust(DateTime(2016, 2, 12, 17, 25, 0));
   }
-    
+  */  
 }  
 
 void loop()
@@ -107,7 +110,7 @@ void loop()
                   
                   else
                     digitalWrite(Pin_No,Pin_Value); break;                // Relay ON/OFF
-          
+                    
           case(222):myTouch.FAN_OFF();              // FAN OFF
                     //Serial.print("FAN OFF"); 
                     break;
@@ -124,22 +127,22 @@ void loop()
         }     
  
     }   
-    load_output_status = myTouch.readLoadstatus();myTAH.print("v:"); 
+    load_output_status = myTouch.readLoadstatus();myTAH.print("B:"); 
     myTAH.print(load_output_status);  //Output Status To update into Smartphone app to display current status of lights
     
         
       
    }
-    if(touch_input != prev_touch_input)
+   if(touch_input != prev_touch_input)
   {
     //when BLE is not connected and signals coming from IR Remote and Capsense Board
     //Serial.print("Prev Touch:");Serial.println(prev_touch_input,HEX);
     //Serial.print("Touch_input:");Serial.println(touch_input,HEX);
     
-    load_output_status = myTouch.readLoadstatus();
+    load_output_status = myTouch.readLoadstatus();      // Output status of Loads
    // Serial.print("Load_Status:");Serial.println(load_output_status,HEX);
     
-    temp=touch_input;
+    temp=touch_input;       // current status byte 
     change = prev_touch_input ^ touch_input;    //if there is a change in state then o/p = !0 
    // Serial.print("Temp:");Serial.println(temp);
     new_state    = change & load_output_status;
@@ -147,8 +150,11 @@ void loop()
     
     prev_touch_input = touch_input;
     
+    
   }
- 
+ output_TouchStatus = myTouch.readLoadstatus();myTAH.print("T:"); 
+ myTAH.print(output_TouchStatus);  //Output Status0 To update into Smartphone app to display current status of lights
+    
   delay(500);    //Update Rate
   wdt_enable(WDTO_4S);
 } // loop

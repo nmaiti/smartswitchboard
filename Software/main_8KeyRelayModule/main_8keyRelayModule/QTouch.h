@@ -12,23 +12,23 @@
 //#define SW1   (PIND & 0b00100000)    //PD5
 // Capsence Input Pins
 
-#define Lamp1      (PIND & 0b00100000)    //PD5 Input pin             
-#define Lamp2      4    
-#define Lamp3      12     //A6 
-#define Socket     6  
-#define Fan_Control 10 
-#define Up          8
-#define Down        9
+#define Lamp1     13  //  ((PINC & 0x80)==0x80)    // PC7   //7    // (PIND & 0b00100000)    //PD5 Input pin             
+#define Lamp2     18  // ((PINF & 0x80)==0x80)    //PF7       //4    
+#define Lamp3     19  // ((PINF & 0x40)==0x40)    // PF6       //12     //A6 
+#define Socket    20  // ((PINF & 0x20)==0x20)    // PF5       //6  
+#define Fan_Control 23  //((PINF & 0x01)==0x01)    //PF0        //10     
+#define Up          21  //((PINF & 0x10)==0x10)    //PF4        //8
+#define Down        22  //((PINF & 0x02)==0x02)     //PF1          //9
 //Output Pins to control Triac Switching
 
-#define Load1   14   //Relay 1 
-#define Load2   15    //Relay 2
-#define Load3   16   //Relay 3
-#define Load4   17   //D17 Relay 4 - Socket pin
-#define Level1  5   //D5
-#define Level2  13   //D13
-#define Level3  18   //D18
-#define Level4  19   //D19
+#define Load1   5      //5  //  14   //Relay 1 
+#define Load2   10      //PB6    //15    //Relay 2
+#define Load3   9      //PB5    //16   //Relay 3
+#define Load4   8      //PB4      //17   //D17 Relay 4 - Socket pin
+#define Level1  11      //5      //D5
+#define Level2  4        //13   //D13
+#define Level3  12      //18    //D18
+#define Level4  6        //19   //D19
 
 
 
