@@ -23775,6 +23775,7 @@ Sourc: www.ctscorp.com</description>
 <wire x1="342.9" y1="-22.86" x2="342.9" y2="134.62" width="6.4516" layer="95"/>
 <wire x1="106.68" y1="-25.4" x2="106.68" y2="134.62" width="6.4516" layer="95"/>
 <text x="322.58" y="-431.8" size="5.08" layer="95" font="vector" ratio="20">RF Remote Transmitter</text>
+<text x="271.78" y="-43.18" size="5.08" layer="95" font="vector" ratio="20">ADD RC SNUBBER CIRCUIT IN FAN REGULATOR</text>
 </plain>
 <instances>
 <instance part="SMPS_5V@2A" gate="G$1" x="-38.1" y="33.02"/>
