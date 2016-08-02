@@ -58,7 +58,7 @@ void setup()
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
   myTAH.setWorkMode(REMOTE_CONTROL);
-  myTAH.setiBeaconMode(ON);
+  myTAH.setiBeaconMode(On);
   
   myTAH.exitCommandMode();
 
