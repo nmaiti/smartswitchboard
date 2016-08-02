@@ -1,0 +1,30 @@
+Aperture  D-Code    Shape   Size (THOU)
+========  ======    =====   ===========
+
+    1      D10      Round        10
+    2      D11      Round        15
+    3      D12      Round        23
+    4      D13      Round        27
+    5      D14      Round        35
+    6      D15      Round        52
+    7      D16      Round        65
+    8      D17      Round        69
+    9      D18      Round        81
+   10      D19      Round        90
+   11      D70      Round        94
+   12      D71      Round       102
+   13      D20      Round       110
+   14      D21      Round       123
+   15      D22      Round       127
+   16      D23      Round       140
+   17      D24      Round       198
+   18      D25      Round       210
+   19      D26      Square       52
+   20      D27      Square       65
+   21      D28      Square       73
+   22      D29      Square       85
+
+Gerber leading zero suppression.
+2,3 Format absolute in inches.
+G01 assumed throughout but never stated.
+Variable Aperture sizes produced.
