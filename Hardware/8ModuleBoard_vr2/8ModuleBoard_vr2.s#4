@@ -20444,14 +20444,14 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="-1.27" y1="-2.54" x2="41.91" y2="-2.54" width="0.4064" layer="21"/>
 <wire x1="41.91" y1="-2.54" x2="41.91" y2="2.54" width="0.4064" layer="21"/>
 <wire x1="41.91" y1="2.54" x2="-1.27" y2="2.54" width="0.4064" layer="21"/>
-<pad name="GND@1" x="0" y="0.127" drill="1.016" diameter="1.8796" shape="square" rot="R90"/>
-<pad name="DATA@1" x="2.54" y="-0.127" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="DATA@2" x="5.08" y="0.127" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="+5V@1" x="7.62" y="-0.127" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="+5V@2" x="33.02" y="0.127" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="GND@2" x="35.56" y="-0.127" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="GND@3" x="38.1" y="0.127" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="ANT" x="40.64" y="-0.127" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="GND@1" x="0" y="0.127" drill="1" diameter="1.9304" shape="square" rot="R90"/>
+<pad name="DATA@1" x="2.54" y="-0.127" drill="1" diameter="1.9304" rot="R90"/>
+<pad name="DATA@2" x="5.08" y="0.127" drill="1" diameter="1.9304" rot="R90"/>
+<pad name="+5V@1" x="7.62" y="-0.127" drill="1" diameter="1.9304" rot="R90"/>
+<pad name="+5V@2" x="33.02" y="0.127" drill="1" diameter="1.9304" rot="R90"/>
+<pad name="GND@2" x="35.56" y="-0.127" drill="1" diameter="1.9304" rot="R90"/>
+<pad name="GND@3" x="38.1" y="0.127" drill="1" diameter="1.9304" rot="R90"/>
+<pad name="ANT" x="40.64" y="-0.127" drill="1" diameter="1.9304" rot="R90"/>
 <text x="10.0838" y="-0.7112" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="25.4" y="0.635" size="1.27" layer="27" rot="R180">&gt;VALUE</text>
 <rectangle x1="7.366" y1="-0.254" x2="7.874" y2="0.254" layer="51"/>
@@ -23728,11 +23728,6 @@ Sourc: www.ctscorp.com</description>
 <plain>
 <text x="-17.78" y="88.9" size="3.81" layer="104" font="vector" ratio="19">Power Supply Section</text>
 <text x="-96.52" y="-241.3" size="5.08" layer="95" font="vector" ratio="20">Microcontroller Unit</text>
-<text x="33.02" y="-96.52" size="1.778" layer="95">SOCKET</text>
-<text x="33.02" y="-99.06" size="1.778" layer="95">LEVEL4</text>
-<text x="33.02" y="-101.6" size="1.778" layer="95">LEVEL3</text>
-<text x="33.02" y="-104.14" size="1.778" layer="95">LEVEL2</text>
-<text x="33.02" y="-106.68" size="1.778" layer="95">LEVEL1</text>
 <text x="297.18" y="-101.6" size="3.81" layer="95" font="vector" ratio="15">Level-1</text>
 <text x="297.18" y="-142.24" size="3.81" layer="95" font="vector" ratio="15">Level-2</text>
 <text x="391.16" y="-104.14" size="3.81" layer="95" font="vector" ratio="15">Level-3</text>
@@ -25848,21 +25843,11 @@ Sourc: www.ctscorp.com</description>
 <wire x1="347.98" y1="-233.68" x2="365.76" y2="-233.68" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$28" class="0">
-<segment>
-<pinref part="TX" gate="G$1" pin="+5V"/>
-<wire x1="408.94" y1="-231.14" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
-<wire x1="381" y1="-236.22" x2="381" y2="-238.76" width="0.1524" layer="91"/>
-<wire x1="381" y1="-238.76" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
-<pinref part="S2" gate="1" pin="S"/>
-<wire x1="373.38" y1="-236.22" x2="381" y2="-236.22" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="V+" class="0">
 <segment>
 <pinref part="IC3" gate="G$1" pin="VDD"/>
-<wire x1="335.28" y1="-276.86" x2="335.28" y2="-269.24" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="V+"/>
+<wire x1="335.28" y1="-276.86" x2="335.28" y2="-269.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="0" gate="G$1" pin="1"/>
@@ -26236,6 +26221,16 @@ Sourc: www.ctscorp.com</description>
 <wire x1="744.22" y1="-248.92" x2="744.22" y2="-251.46" width="0.1524" layer="91"/>
 <wire x1="744.22" y1="-251.46" x2="741.68" y2="-251.46" width="0.1524" layer="91"/>
 <junction x="741.68" y="-251.46"/>
+</segment>
+</net>
+<net name="N$28" class="0">
+<segment>
+<pinref part="TX" gate="G$1" pin="+5V"/>
+<wire x1="408.94" y1="-231.14" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
+<wire x1="381" y1="-238.76" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
+<wire x1="381" y1="-236.22" x2="381" y2="-238.76" width="0.1524" layer="91"/>
+<pinref part="S2" gate="1" pin="S"/>
+<wire x1="373.38" y1="-236.22" x2="381" y2="-236.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

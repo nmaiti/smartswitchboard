@@ -1,0 +1,16 @@
+Easy-PC - NC Drill output - Easy-PC
+
+Program by Number One Systems Ltd.
+
+Drill Width in thou.
+
+T001  19
+T002  48
+
+NC file(s) output as follows:-
+
+2.3 Format.
+ASCII.
+Absolute in inches.
+No zero suppression.
+

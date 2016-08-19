@@ -11,11 +11,13 @@
  */
 
 #include <avr/wdt.h>
+#include <avr/interrupt.h>
 #include <TAH.h>
 #include <EEPROM.h>
 #include <Wire.h>   // Date and time functions using a DS1307 RTC connected via I2C and Wire lib
 #include "QTouch.h"
 #include "BLE.h"
+
 //#include "RTClib.h"
 
 
@@ -23,6 +25,7 @@
 //RTC_DS1307 rtc;
 TAH myTAH;          // Object Variables
 QTouch myTouch;  
+BLE getStatus;
 
 //char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
@@ -33,9 +36,17 @@ int Pin_Type;    //  Stores Pin Type
 int Pin_No;      //  Stores Pin Number
 int Pin_Value;   //  Stores Pin Value 
 
+/// RF Modules Output pins as Input to MCU PB0 - PB3
+#define RFD0  14        // PB0 PCINT0
+#define RFD1  15        // PB1 PCINT1
+#define RFD2  16        // PB2 PCINT2
+#define RFD3  17        // PB3 PCINT3
+/// Using PinChange Interrupt0
 
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0,output_TouchStatus=0;
+volatile byte RFStatus=0,prevRFStatus=0;
+
 int switch_num=0;
 
 
@@ -47,7 +58,7 @@ void setup()
 
   myTAH.enterCommandMode();
 
-  myTAH.setName("Vikas");
+  myTAH.setName("HBT_Test");
   myTAH.setTransmissionPower(Six);
   myTAH.setWorkRole(SLAVE);
   myTAH.setAuth(OPEN);
@@ -72,12 +83,25 @@ void setup()
     //rtc.adjust(DateTime(2016, 2, 12, 17, 25, 0));
   }
   */  
+/// Pin Change Interrupt 
+/// define the pins
+
+pinMode(RFD0,INPUT);
+pinMode(RFD1,INPUT);
+pinMode(RFD2,INPUT);
+pinMode(RFD3,INPUT);
+
+DDRB = 0b11110000 ;   // PB0 - PB3 RF Input Pins
+
+sei();      //Enable Global Interrupt
+
 }  
 
 void loop()
 {  
         
-   touch_input = myTouch.readCapsense();  //Read capsense values
+   touch_input = myTouch.readCapsense() & 0x7F;  //Read capsense values
+   
    //Serial.println(touch_input,HEX);
    
    if(myTAH.available()>0)                //phone connected and Rx commands
@@ -128,12 +152,13 @@ void loop()
  
     }   
     load_output_status = myTouch.readLoadstatus();myTAH.print("B:"); 
+    //delay(1000);
     myTAH.print(load_output_status);  //Output Status To update into Smartphone app to display current status of lights
-    
+    //getStatus.updateStatus(load_output_status); 
         
       
    }
-   if(touch_input != prev_touch_input)
+   if(touch_input ^ prev_touch_input )
   {
     //when BLE is not connected and signals coming from IR Remote and Capsense Board
     //Serial.print("Prev Touch:");Serial.println(prev_touch_input,HEX);
@@ -149,18 +174,31 @@ void loop()
     myTouch.cap_setLoad(temp);          //switch as per new_state
     
     prev_touch_input = touch_input;
-    
+
+    output_TouchStatus = myTouch.readLoadstatus();myTAH.print("T:"); 
+    myTAH.print(output_TouchStatus);  //Output Status0 To update into Smartphone app to display current status of lights
     
   }
- output_TouchStatus = myTouch.readLoadstatus();myTAH.print("T:"); 
- myTAH.print(output_TouchStatus);  //Output Status0 To update into Smartphone app to display current status of lights
-    
+ 
+/// RF Modules Inputs Conditions
+
+RFStatus = PINB & 0x0F;
+if(RFStatus != prevRFStatus) //
+{
+  switch(RFStatus)
+  {
+    case(0x01) : myTouch.L1_ON();break;
+    case(0x02) : myTouch.L2_ON();break;
+    case(0x03) : myTouch.L3_ON();break;  
+    case(0x04) : myTouch.Socket_ON();break;
+  }
+  prevRFStatus = RFStatus;
+  
+}
+ 
   delay(500);    //Update Rate
   wdt_enable(WDTO_4S);
 } // loop
-
-
- 
 
 
 

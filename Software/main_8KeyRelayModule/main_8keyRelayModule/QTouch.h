@@ -19,6 +19,8 @@
 #define Fan_Control 23  //((PINF & 0x01)==0x01)    //PF0        //10     
 #define Up          21  //((PINF & 0x10)==0x10)    //PF4        //8
 #define Down        22  //((PINF & 0x02)==0x02)     //PF1          //9
+
+
 //Output Pins to control Triac Switching
 
 #define Load1   5      //5  //  14   //Relay 1 

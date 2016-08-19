@@ -38,17 +38,17 @@ void QTouch::gpioInit(void)
 
   //Input Pins
 
-  PORTC = 0b10000000;   // PC7 Input others Output mode
-  PORTF = 0xFF;         // all pins are Input pins
-  PORTB = 0b00001111;   // bit 0,1,2,3 RF - Inputs others Output Pins
+ // PORTC = 0b10000000;   // PC7 Input others Output mode
+ // PORTF = 0xFF;         // all pins are Input pins
+ // PORTB = 0b00001111;   // bit 0,1,2,3 RF - Inputs others Output Pins
   
   
-  // uint8_t capsensepins[8] = {Lamp1,Lamp2,Lamp3,Socket,Fan_Control,Up,Down};
-  // uint8_t loadoutpins[8] = {Load1,Load2,Load3,Load4,Level1,Level2,Level3,Level4};//Load6=NC
+   uint8_t capsensepins[8] = {Lamp1,Lamp2,Lamp3,Socket,Fan_Control,Up,Down};
+   uint8_t loadoutpins[8] = {Load1,Load2,Load3,Load4,Level1,Level2,Level3,Level4};//Load6=NC
 
   //Set Pinmodes of I/O pins
 
- /*1 for(uint8_t i=0;i<8;i++)
+  for(uint8_t i=0;i<8;i++)
   {
     pinMode(capsensepins[i],INPUT);
     pinMode(loadoutpins[i],OUTPUT);

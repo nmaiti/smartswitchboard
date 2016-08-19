@@ -23722,6 +23722,8 @@ Sourc: www.ctscorp.com</description>
 <part name="GND34" library="supply1" deviceset="GNDA" device=""/>
 <part name="R24" library="SparkFun-Passives" deviceset="RESISTOR" device="1206" value="750K"/>
 <part name="GND35" library="supply1" deviceset="GNDA" device=""/>
+<part name="C2" library="SparkFun-Passives" deviceset="CAP" device="1206" value="0.1uF"/>
+<part name="GND36" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -23775,6 +23777,7 @@ Sourc: www.ctscorp.com</description>
 <wire x1="342.9" y1="-22.86" x2="342.9" y2="134.62" width="6.4516" layer="95"/>
 <wire x1="106.68" y1="-25.4" x2="106.68" y2="134.62" width="6.4516" layer="95"/>
 <text x="322.58" y="-431.8" size="5.08" layer="95" font="vector" ratio="20">RF Remote Transmitter</text>
+<text x="271.78" y="-43.18" size="5.08" layer="95" font="vector" ratio="20">ADD RC SNUBBER CIRCUIT IN FAN REGULATOR</text>
 </plain>
 <instances>
 <instance part="SMPS_5V@2A" gate="G$1" x="-38.1" y="33.02"/>
@@ -24019,6 +24022,8 @@ Sourc: www.ctscorp.com</description>
 <instance part="GND34" gate="1" x="266.7" y="-322.58"/>
 <instance part="R24" gate="G$1" x="337.82" y="-360.68"/>
 <instance part="GND35" gate="1" x="378.46" y="-299.72" rot="R90"/>
+<instance part="C2" gate="G$1" x="-40.64" y="-99.06"/>
+<instance part="GND36" gate="1" x="-53.34" y="-106.68"/>
 </instances>
 <busses>
 </busses>
@@ -24546,6 +24551,12 @@ Sourc: www.ctscorp.com</description>
 <wire x1="-93.98" y1="-165.1" x2="-81.28" y2="-165.1" width="0.1524" layer="91"/>
 <pinref part="GND31" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="C2" gate="G$1" pin="2"/>
+<wire x1="-40.64" y1="-101.6" x2="-53.34" y2="-101.6" width="0.1524" layer="91"/>
+<pinref part="GND36" gate="1" pin="GND"/>
+<wire x1="-53.34" y1="-104.14" x2="-53.34" y2="-101.6" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="!RESET" class="0">
 <segment>
@@ -24554,6 +24565,8 @@ Sourc: www.ctscorp.com</description>
 <wire x1="-40.64" y1="-93.98" x2="-40.64" y2="-91.44" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="1"/>
 <label x="-35.56" y="-93.98" size="1.4224" layer="95" font="vector" ratio="15"/>
+<pinref part="C2" gate="G$1" pin="1"/>
+<junction x="-40.64" y="-93.98"/>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="UART_RTS"/>
@@ -25843,21 +25856,11 @@ Sourc: www.ctscorp.com</description>
 <wire x1="347.98" y1="-233.68" x2="365.76" y2="-233.68" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$28" class="0">
-<segment>
-<pinref part="TX" gate="G$1" pin="+5V"/>
-<wire x1="408.94" y1="-231.14" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
-<wire x1="381" y1="-236.22" x2="381" y2="-238.76" width="0.1524" layer="91"/>
-<wire x1="381" y1="-238.76" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
-<pinref part="S2" gate="1" pin="S"/>
-<wire x1="373.38" y1="-236.22" x2="381" y2="-236.22" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="V+" class="0">
 <segment>
 <pinref part="IC3" gate="G$1" pin="VDD"/>
-<wire x1="335.28" y1="-276.86" x2="335.28" y2="-269.24" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="V+"/>
+<wire x1="335.28" y1="-276.86" x2="335.28" y2="-269.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="0" gate="G$1" pin="1"/>
@@ -26231,6 +26234,16 @@ Sourc: www.ctscorp.com</description>
 <wire x1="744.22" y1="-248.92" x2="744.22" y2="-251.46" width="0.1524" layer="91"/>
 <wire x1="744.22" y1="-251.46" x2="741.68" y2="-251.46" width="0.1524" layer="91"/>
 <junction x="741.68" y="-251.46"/>
+</segment>
+</net>
+<net name="N$28" class="0">
+<segment>
+<pinref part="TX" gate="G$1" pin="+5V"/>
+<wire x1="408.94" y1="-231.14" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
+<wire x1="381" y1="-238.76" x2="408.94" y2="-238.76" width="0.1524" layer="91"/>
+<wire x1="381" y1="-236.22" x2="381" y2="-238.76" width="0.1524" layer="91"/>
+<pinref part="S2" gate="1" pin="S"/>
+<wire x1="373.38" y1="-236.22" x2="381" y2="-236.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
