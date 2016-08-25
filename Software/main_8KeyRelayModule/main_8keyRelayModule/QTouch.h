@@ -20,7 +20,13 @@
 #define Up          21  //((PINF & 0x10)==0x10)    //PF4        //8
 #define Down        22  //((PINF & 0x02)==0x02)     //PF1          //9
 
+// RF Inputs
 
+/*#define RFD0  14    //D14
+#define RFD1  16    //D16(RFD2)
+#define RFD2  17    //D17(RFD3)
+#define RFD3  15    //D15(RFD1)
+*/
 //Output Pins to control Triac Switching
 
 #define Load1   5      //5  //  14   //Relay 1 

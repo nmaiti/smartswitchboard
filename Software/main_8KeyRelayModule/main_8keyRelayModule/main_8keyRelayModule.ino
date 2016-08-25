@@ -37,15 +37,17 @@ int Pin_No;      //  Stores Pin Number
 int Pin_Value;   //  Stores Pin Value 
 
 /// RF Modules Output pins as Input to MCU PB0 - PB3
-#define RFD0  14        // PB0 PCINT0
-#define RFD1  15        // PB1 PCINT1
-#define RFD2  16        // PB2 PCINT2
-#define RFD3  17        // PB3 PCINT3
+
+#define RFD0  14    //D14
+#define RFD1  16    //D16(RFD2)
+#define RFD2  17    //D17(RFD3)
+#define RFD3  15    //D15(RFD1)
+
 /// Using PinChange Interrupt0
 
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0,output_TouchStatus=0;
-volatile byte RFStatus=0,prevRFStatus=0;
+volatile byte Curr_RFStatus=0,prevRFStatus=0;
 
 int switch_num=0;
 
@@ -91,7 +93,7 @@ pinMode(RFD1,INPUT);
 pinMode(RFD2,INPUT);
 pinMode(RFD3,INPUT);
 
-DDRB = 0b11110000 ;   // PB0 - PB3 RF Input Pins
+//DDRB = 0b11110000 ;   // PB0 - PB3 RF Input Pins
 
 sei();      //Enable Global Interrupt
 
@@ -182,17 +184,20 @@ void loop()
  
 /// RF Modules Inputs Conditions
 
-RFStatus = PINB & 0x0F;
-if(RFStatus != prevRFStatus) //
+Curr_RFStatus = PINB & 0x0F;      //Read RF Status
+
+if( Curr_RFStatus ) // Detecting State change
 {
-  switch(RFStatus)
+  switch(Curr_RFStatus)
   {
-    case(0x01) : myTouch.L1_ON();break;
-    case(0x02) : myTouch.L2_ON();break;
-    case(0x03) : myTouch.L3_ON();break;  
-    case(0x04) : myTouch.Socket_ON();break;
+    case(0x01) :
+                 PORTC = (PORTC ^ 0x40) ;   //PC6 Load1
+                 break;
+                
+    case(0x02) : PORTB = (PORTB ^ 0x40);break;  //PB6 Load2
+    case(0x03) : PORTB = (PORTB ^ 0x20);break;  // PB5 Load3  
+    case(0x04) : PORTB = (PORTB ^ 0x10);break;  //PB4 Socket Load 4
   }
-  prevRFStatus = RFStatus;
   
 }
  
