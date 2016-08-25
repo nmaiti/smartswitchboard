@@ -1,3 +1,4 @@
+
 /* Project: Smart Switch Board Vr1
    Author:Vikas Gaikwad
    Date  :03/02/2016
@@ -12,7 +13,7 @@
 
 #include <avr/wdt.h>
 #include <avr/interrupt.h>
-#include <TAH.h>
+#include <HBT.h>
 #include <EEPROM.h>
 #include <Wire.h>   // Date and time functions using a DS1307 RTC connected via I2C and Wire lib
 #include "QTouch.h"
@@ -23,7 +24,7 @@
 
 
 //RTC_DS1307 rtc;
-TAH myTAH;          // Object Variables
+HBT myHBT;          // Object Variables
 QTouch myTouch;  
 BLE getStatus;
 
@@ -56,18 +57,18 @@ int switch_num=0;
 void setup()
 {
   Serial.begin(9600);
-  myTAH.begin(9600);
+  myHBT.begin(9600);
 
-  myTAH.enterCommandMode();
+  myHBT.enterCommandMode();
 
-  myTAH.setName("HBT_Test");
-  myTAH.setTransmissionPower(Six);
-  myTAH.setWorkRole(SLAVE);
-  myTAH.setAuth(OPEN);
-  myTAH.setWorkMode(REMOTE_CONTROL);
-  myTAH.setiBeaconMode(On);
+  myHBT.setName("HBT_Test");
+  myHBT.setTransmissionPower(Six);
+  myHBT.setWorkRole(SLAVE);
+  myHBT.setAuth(OPEN);
+  myHBT.setWorkMode(REMOTE_CONTROL);
+  myHBT.setiBeaconMode(On);
   
-  myTAH.exitCommandMode();
+  myHBT.exitCommandMode();
 
   myTouch.gpioInit();    // set all pins
 /*
@@ -106,11 +107,11 @@ void loop()
    
    //Serial.println(touch_input,HEX);
    
-   if(myTAH.available()>0)                //phone connected and Rx commands
+   if(myHBT.available()>0)                //phone connected and Rx commands
    {
-      Pin_Type = myTAH.parseInt();
-      Pin_No = myTAH.parseInt();
-      Pin_Value = myTAH.parseInt();
+      Pin_Type = myHBT.parseInt();
+      Pin_No = myHBT.parseInt();
+      Pin_Value = myHBT.parseInt();
 
       Serial.print(Pin_Type);
       Serial.print(",");
@@ -119,7 +120,7 @@ void loop()
       Serial.println(Pin_Value);
       Serial.print("I am Here");
      // myTouch.LightControl(Pin_No,Pin_Value);
-    if(myTAH.read() =='H')                      // detects endline character "H"
+    if(myHBT.read() =='H')                      // detects endline character "H"
     {
         Serial.print("I am in if.read()");
         //if Pin Type is 0 means Digital Output      
@@ -153,9 +154,9 @@ void loop()
         }     
  
     }   
-    load_output_status = myTouch.readLoadstatus();myTAH.print("B:"); 
+    load_output_status = myTouch.readLoadstatus();myHBT.print("B:"); 
     //delay(1000);
-    myTAH.print(load_output_status);  //Output Status To update into Smartphone app to display current status of lights
+    myHBT.print(load_output_status);  //Output Status To update into Smartphone app to display current status of lights
     //getStatus.updateStatus(load_output_status); 
         
       
@@ -177,8 +178,8 @@ void loop()
     
     prev_touch_input = touch_input;
 
-    output_TouchStatus = myTouch.readLoadstatus();myTAH.print("T:"); 
-    myTAH.print(output_TouchStatus);  //Output Status0 To update into Smartphone app to display current status of lights
+    output_TouchStatus = myTouch.readLoadstatus();myHBT.print("T:"); 
+    myHBT.print(output_TouchStatus);  //Output Status0 To update into Smartphone app to display current status of lights
     
   }
  
