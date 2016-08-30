@@ -49,7 +49,8 @@ int Pin_Value;   //  Stores Pin Value
 volatile byte touch_input=0,prev_touch_input=0,temp,change,new_state;
 volatile byte load_output_status=0,output_TouchStatus=0;
 volatile byte Curr_RFStatus=0,prevRFStatus=0;
-
+bool fon = false,foff= false,up_in = false,mstr_on =false;
+volatile uint8_t level = 0;
 int switch_num=0;
 
 
@@ -189,15 +190,111 @@ Curr_RFStatus = PINB & 0x0F;      //Read RF Status
 
 if( Curr_RFStatus ) // Detecting State change
 {
+  delay(500);       // Debounce delay
   switch(Curr_RFStatus)
   {
     case(0x01) :
-                 PORTC = (PORTC ^ 0x40) ;   //PC6 Load1
+                 PORTC ^= _BV(PC6) ;   //PC6 Load 1
                  break;
                 
-    case(0x02) : PORTB = (PORTB ^ 0x40);break;  //PB6 Load2
-    case(0x03) : PORTB = (PORTB ^ 0x20);break;  // PB5 Load3  
-    case(0x04) : PORTB = (PORTB ^ 0x10);break;  //PB4 Socket Load 4
+    case(0x04) : PORTB ^=  _BV(PB6);break;  //PB6 Load 2
+    case(0x05) : PORTB ^=  _BV(PB5);break;  // PB5 Load 3  
+    case(0x08) : PORTB ^=  _BV(PB4);break;  //PB4 Socket Load 4
+    case(0x0A) :  // FAN ON default level to Level 1
+               
+                //PORTB |= (1<<PB7);    //Level1 ON
+                //PORTD &= (0<<PD4);    //Level 2 OFF
+                //PORTD &= (0<<PD6);    //Level 3 OFF
+                //PORTD &= (0<<PD7); 
+                
+                if(level >= 4)
+                {
+                  level = 0; 
+                  PORTD &= ~ _BV(PD7);    //Load 4 OFF
+                  PORTB |= _BV(PB7);    //Load 1 ON
+                }
+                else if(level == 0)
+                { 
+                   level = level +1;              
+                   PORTB |= _BV(PB7);    //Load 1 ON
+                   fon = true;
+                   up_in = true;
+                }
+                break;
+
+    case(0x0B) : // Level DOWN
+
+                if((fon == true && up_in == true) && (level > 0 && level <= 4))
+                {
+                  
+                  //int portArry[]= {0,6, 6, 5, 4};
+                  int portArry[]= {0,7, 4, 6, 7};     //levels bits
+
+                  PORTD &= ~ _BV(portArry[level]);  // OFF present load
+                  PORTD |= _BV(portArry[level - 1]);    //Load 2 ON
+                  if(level == 1)
+                  {
+                    PORTB |= _BV(PB7);      //level 1 ON
+                  }
+                    
+                  level = level - 1;
+                }
+                                
+                break;
+    case(0x07) : //Level UP
+                                
+                if(fon == true && level <=3)
+                {
+                  //int portArry[]= {0, 6, 6, 5, 4};
+                  int portArry[]= {0,7, 4, 6, 7};     //levels bits
+
+                  PORTB &= ~ _BV(PB7);    //Load 1 OFF
+                  PORTD &= ~ _BV(portArry[level]);  // OFF preivous load
+                  PORTD |= _BV(portArry[level + 1]);    //Load 2 ON
+                  //PORTB |= (1<<PB5);    //Load 3 ON
+                  //PORTB |= (1<<PB4);    //Load 4 ON
+                  level= level + 1;
+                  up_in = true;
+                }
+                
+              break;
+            
+    
+    case(0x0E) : // FAN OFF
+
+              PORTB &= ~ _BV(PB7);    //Level1 OFF
+              PORTD &= ~ _BV(PD4);    //Level 2 OFF
+              PORTD &= ~ _BV(PD6);    //Level 3 OFF
+              PORTD &= ~ _BV(PD7);    //Level 4 OFF
+  
+              
+              foff = true;
+              fon = false;
+              up_in = false;
+              level = 0;
+              break;
+                                
+    case(0x0F) :    //Master ON/OFF 
+                 if(mstr_on == false)
+                 {
+                   PORTC |= _BV(PC6);
+                   PORTB |= _BV(PB6);
+                   PORTB |= _BV(PB5);
+                   PORTB |= _BV(PB4);
+                   PORTB |= _BV(PB7);    //Level1 ON
+                   mstr_on = true;
+                 }
+                 else if(mstr_on == true)
+                 { 
+                   PORTC &= ~ _BV(PC6);
+                   PORTB &= ~ _BV(PB6);
+                   PORTB &= ~ _BV(PB5);
+                   PORTB &= ~ _BV(PB4);
+
+                   PORTB &= ~ _BV(PB7);    //Level1 OFF
+                   mstr_on =false;  
+                 }
+                 break;  //Master ON/OFF
   }
   
 }
