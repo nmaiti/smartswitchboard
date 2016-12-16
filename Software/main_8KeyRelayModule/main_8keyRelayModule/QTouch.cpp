@@ -35,25 +35,47 @@ QTouch::QTouch()
 ==========================================================================================================*/
 void QTouch::gpioInit(void)
 {
-
-  //Input Pins
-
- // PORTC = 0b10000000;   // PC7 Input others Output mode
- // PORTF = 0xFF;         // all pins are Input pins
- // PORTB = 0b00001111;   // bit 0,1,2,3 RF - Inputs others Output Pins
-  
-  
    uint8_t capsensepins[8] = {Lamp1,Lamp2,Lamp3,Socket,Fan_Control,Up,Down};
    uint8_t loadoutpins[8] = {Load1,Load2,Load3,Load4,Level1,Level2,Level3,Level4};//Load6=NC
-
+   
   //Set Pinmodes of I/O pins
 
   for(uint8_t i=0;i<8;i++)
   {
     pinMode(capsensepins[i],INPUT);
     pinMode(loadoutpins[i],OUTPUT);
-  }  
+  }
+
+   pinMode(RFD0,INPUT);
+   pinMode(RFD1,INPUT);
+   pinMode(RFD2,INPUT);
+   pinMode(RFD3,INPUT);
+
+   digitalWrite(RFD0,LOW);
+   digitalWrite(RFD1,LOW);
+   digitalWrite(RFD2,LOW);
+   digitalWrite(RFD2,LOW);
+ /* 
+  DDRC = _BV(PC6);       // set output 
+  DDRB = _BV(PB6);       // set output
+  DDRB = _BV(PB5);       // set output
+  DDRB = _BV(PB4);       // set output
+  DDRB = _BV(PB7);       // set output
+  DDRD = _BV(PD4);       // set output
+  DDRD = _BV(PD6);       // set output
+  DDRD = _BV(PD7);       // set output
   
+
+  
+  PORTC &= ~ _BV(PC6);  //Lamp 1
+  PORTB &= ~ _BV(PB6);  // Lamp 2
+  PORTB &= ~ _BV(PB5);  //Lamp 3
+  PORTB &= ~ _BV(PB4);  //Socket
+  PORTB &= ~ _BV(PB7);    //Level 1 OFF
+  PORTD &= ~ _BV(PD4);    //Level 2 OFF
+  PORTD &= ~ _BV(PD6);    //Level 3 OFF
+  PORTD &= ~ _BV(PD7);    //Level 4 OFF
+  */
   //Set pinValue to LOW
   /*digitalWrite(Lamp1,LOW);
   digitalWrite(Lamp2,LOW);
@@ -62,11 +84,11 @@ void QTouch::gpioInit(void)
   digitalWrite(Fan_Control,LOW);
   digitalWrite(Up,LOW);
   digitalWrite(Down,LOW);    */
- /* for(uint8_t i=0;i<8;i++)
+  for(uint8_t i=0;i<8;i++)
   {
     digitalWrite(capsensepins[i],LOW);
     digitalWrite(loadoutpins[i],LOW);
-  } */
+  }
     
 }
 
@@ -90,26 +112,30 @@ void QTouch:: LightControl(uint8_t pinNo, uint8_t pinValue)
 
 void QTouch::L1_ON(void)  
 {
-  PORTC |= (1<<PC6);
+  PORTC |= _BV(PC6);
   //digitalWrite(Load1,HIGH);
+  Serial.println("Lamp 1 ON");
 }
 
 void QTouch::L2_ON(void)
 {
-  PORTB |= (1<<PB6);
+  PORTB |= _BV(PB6);
   //digitalWrite(Load2,HIGH);
+  Serial.println("Lamp 2 ON");
 }
 
 void QTouch::L3_ON(void)
 {
-  PORTB |= (1<<PB5);
+  PORTB |= _BV(PB5);
   //digitalWrite(Load3,HIGH);
+  Serial.println("Lamp 3 ON"); 
 }
 
 void QTouch::Socket_ON(void)      //Socket Control SW
 {
-  PORTB |= (1<<PB4);
+  PORTB |= _BV(PB4);
   //digitalWrite(Load4,HIGH);
+  Serial.println("Socket ON");
 }
 
 void QTouch::FAN_ON(void)
@@ -118,10 +144,10 @@ void QTouch::FAN_ON(void)
   //digitalWrite(Level1,HIGH);    //set to Level-1
   //Level2_OFF();Level3_OFF();Level4_OFF();
   
-  PORTB |= (1<<PB7);    //Level1 ON
-  PORTD &= (0<<PD4);    //Level 2 OFF
-  PORTD &= (0<<PD6);    //Level 3 OFF
-  PORTD &= (0<<PD7);    //Level 4 OFF
+  PORTB |= _BV(PB7);    //Level1 ON
+  PORTD &= ~ _BV(PD4);    //Level 2 OFF
+  PORTD &= ~ _BV(PD6);    //Level 3 OFF
+  PORTD &= ~ _BV(PD7);    //Level 4 OFF
   
 }
 
@@ -129,7 +155,7 @@ void QTouch::Level2_ON(void)
 {
   //digitalWrite(Level2,HIGH);
   
-  PORTD |= (1<<PD4);    //Level 2 ON
+  PORTD |= _BV(PD4);    //Level 2 ON
   Level3_OFF();Level4_OFF();
   digitalWrite(Level1,LOW);
  
@@ -143,7 +169,7 @@ void QTouch::Level3_ON(void)
 {
   //digitalWrite(Level3,HIGH);
   
-  PORTD |= (1<<PD6);    //Leevel 3 ON
+  PORTD |= _BV(PD6);    //Leevel 3 ON
   digitalWrite(Level1,LOW);
   Level2_OFF();Level4_OFF();
   
@@ -157,7 +183,7 @@ void QTouch::Level4_ON(void)
 {
   //digitalWrite(Level4,HIGH);
   
-  PORTD |= (1<<PD7);    //Level 4 ON
+  PORTD |= _BV(PD7);    //Level 4 ON
   digitalWrite(Level1,LOW);
   Level2_OFF();Level3_OFF();
   
@@ -171,15 +197,15 @@ void QTouch::Level4_ON(void)
 void QTouch::Master_ON(void)  // Now Master is ON == Make ALL ON
 {
   //curr_status = getstatus;
-  //digitalWrite(Load1,HIGH);
+  digitalWrite(Load1,HIGH);
   //digitalWrite(Load2,HIGH);
   //digitalWrite(Load3,HIGH);
   //digitalWrite(Load4,HIGH);  //Make them OFF
   //Socket_ON();
-  PORTC |= (1<<PC6);    //Load 1 ON
-  PORTB |= (1<<PB6);    //Load 2 ON
-  PORTB |= (1<<PB5);    //Load 3 ON
-  PORTB |= (1<<PB4);    //Load 4 ON
+  //PORTC |= _BV(PC6);    //Load 1 ON
+  PORTB |= _BV(PB6);    //Load 2 ON
+  PORTB |= _BV(PB5);    //Load 3 ON
+  PORTB |= _BV(PB4);    //Load 4 ON
   FAN_ON();                  //Fan at Default Speed Level -1
 }
 /*========================================================================================================
@@ -193,24 +219,25 @@ void QTouch::Master_ON(void)  // Now Master is ON == Make ALL ON
 void QTouch::L1_OFF(void)
 {
   digitalWrite(Load1,LOW);
+  Serial.println("Lamp 1 OFF");
 }
 
 void QTouch::L2_OFF(void)
 {
   digitalWrite(Load2,LOW);
-  
+  Serial.println("Lamp 2 OFF");
 }
 
 void QTouch::L3_OFF(void)
 {
   digitalWrite(Load3,LOW);
-
+  Serial.println("Lamp 3 OFF");
 }
 
 void QTouch::Socket_OFF(void)
 {
   digitalWrite(Load4,LOW);      //Socket OFF
-
+  Serial.println("Socket OFF");
 }
 
 void QTouch::FAN_OFF(void)
@@ -258,7 +285,7 @@ void QTouch::Master_OFF(void)
 
 byte QTouch::readCapsense()
 {
-  //Read the Input Port Status and returns int value
+  //Read the Input Port Status and returns int byte value
   
   boolean l1 = digitalRead(Lamp1);
   boolean l2 = digitalRead(Lamp2);
@@ -273,6 +300,39 @@ byte QTouch::readCapsense()
   byte val=0;
   
   for(uint8_t i=0;i<=7;i++)
+  {
+    val|= (no[i]<< i);    //convert bits to byte
+  }
+      
+  //Serial.print(val);
+   
+  return val;
+  
+}
+
+/*========================================================================================================
+
+  File: QTouch.cpp
+
+  Description: This method use to read RF 4-bits Inputs continously
+               and returns a 8-bit number(byte)
+
+==========================================================================================================*/
+
+byte QTouch::readRF()
+{
+  //Read the Input Port Status and returns int value
+  
+  boolean RD0 = digitalRead(RFD0);
+  boolean RD1 = digitalRead(RFD1);
+  boolean RD2 = digitalRead(RFD2);
+  boolean RD3 = digitalRead(RFD3);
+  
+  
+  byte no[4] = {RD0,RD1,RD2,RD3};//no[0] = LSB
+  byte val=0;
+  
+  for(uint8_t i=0;i<=3;i++)
   {
     val|= (no[i]<< i);    //convert bits to byte
   }
@@ -414,7 +474,7 @@ void QTouch::cap_setLoad(byte loadValue)
                   Level2_ON();Socket_OFF();L3_ON();L2_OFF();L1_OFF();  break;
 
      case(0x25)://    0010 0101                        Set to Level-2
-                  Level2_ON();Socket_OFF();L3_ON();L2_OFF();L1_OFF();  break;
+                  Level2_ON();Socket_OFF();L3_ON();L2_OFF();L1_ON();  break;
 
      case(0x26)://    0010 0110                        Set to Level-2
                   Level2_ON();Socket_OFF();L3_ON();L2_ON();L1_OFF();  break;
