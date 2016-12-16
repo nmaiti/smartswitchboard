@@ -21,12 +21,13 @@
 #define Down        22  //((PINF & 0x02)==0x02)     //PF1          //9
 
 // RF Inputs
+/// RF Modules Output pins as Input to MCU PB0 - PB3
 
-/*#define RFD0  14    //D14
+#define RFD0  14    //D14
 #define RFD1  16    //D16(RFD2)
 #define RFD2  17    //D17(RFD3)
 #define RFD3  15    //D15(RFD1)
-*/
+
 //Output Pins to control Triac Switching
 
 #define Load1   5      //5  //  14   //Relay 1 
@@ -50,6 +51,7 @@ class QTouch
   void gpioInit(void);
   byte readCapsense(void);
   byte readLoadstatus(void);
+  byte readRF(void);
   void cap_setLoad(byte loadValue);
   void L1_ON(void);
   void L2_ON(void);
